@@ -39,33 +39,20 @@
 // any manner for purposes of training artificial intelligence technologies to
 // generate text without Sebastian Matusik’s specific and express permission.
 //
-// Created by Alexander Schmutz
-// Modified by Sebastian Matusik
+// Created by Sebastian Matusik
 //
 
-import Buildable
-import Foundation
+import SwiftSyntax
 
-@Buildable
-public struct Person: Sendable {
-    let name: String
-    let age: Int
-    let photoURL: URL?
-}
-
-@Buildable(accessLevel: .private)
-package class AppState {
-    let people: [Person]
-
-    init(people: [Person]) {
-        self.people = people
+func getValueInitializerClauseSyntax(from parameter: InitParameter)
+    -> InitializerClauseSyntax?
+{
+    if let value = parameter.value {
+        return value
     }
+    guard parameter.isOptional else { return nil }
+    return InitializerClauseSyntax(
+        equal: .equalToken(trailingTrivia: .spaces(1)),
+        value: ExprSyntax(NilLiteralExprSyntax())
+    )
 }
-
-let bob = PersonBuilder(name: "Bob", age: 28).build()
-let max = PersonBuilder(name: "Max", age: 21).build()
-let modifiedBob = PersonBuilder(bob).set(age: 29).build()
-let appState = AppStateBuilder(people: [
-    modifiedBob, max,
-])
-.build()

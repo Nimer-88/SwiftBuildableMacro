@@ -1,5 +1,5 @@
 # `@Buildable` Swift Macro
-`@Buildable` is an attached swift macro for structs, classes and enums, which produces a peer struct implementing the builder pattern. Initialise your object with minimal effort using default values.
+`@Buildable` is an attached swift macro for structs and classes, which produces a peer class implementing the builder pattern. Based on [SwiftBuildableMacro](https://github.com/alschmut/SwiftBuildableMacro) by [Alexander Schmutz](https://github.com/alschmut).
 ```swift
 import Buildable
 
@@ -7,15 +7,21 @@ import Buildable
 struct Person {
     let name: String
     let age: Int
+    let photoURL: URL?
 }
 
-let person = PersonBuilder(age: 42).build()
+let charles = PersonBuilder(name:"Charles", age: 42).build()
+let newCharles = PersonBuilder(charles)
+                    .set(photoURL: URL(string: "https://picsum.photos/200"))
+                    .build()
 ```
 
 > **Important!**
-    <br>- This macro is intended to be used for simple structs, enums and classes (see below limitations)
+    <br>- The repo started as a clone of [SwiftBuildableMacro](https://github.com/alschmut/SwiftBuildableMacro) authored by [Alexander Schmutz](https://github.com/alschmut) which I've heavily edited to fit my own needs. I never met Alexander, but I would like to express my thanks to him for providing such a great learning material and a starting point under MIT license. Kudos!
+    <br>- This repo is licensed under MIT license with no advertisement clause and no AI training clause. Use of this software for the purpose of any machine learning algorithms is strictly forbidden.
+    <br>- This macro is intended to be used for simple structs and classes, preferably immutable (see below limitations)
     <br>- Please report any issues you might encounter
-    <br>- Please star this repository, if your project makes use of it :) 
+    <br>- Please star this repository, if your project makes use of it :)
 
 ### Table of Contents
 - [Detailed Example with generated builder](#Detailed-Example-with-generated-builder)
@@ -33,71 +39,51 @@ import Buildable
 struct Person {
     let name: String
     let age: Int
-    let address: Address
-    let favouriteSeason: Season
+    let photoURL: URL?
 }
 
-@Buildable
-public enum Season {
-    case winter
-    case spring
-    case summer
-    case autumn
-}
-
-@Buildable(accessLevel: .internal)
-package class AppState {
-    let persons: [Person]
-
-    init(
-        persons: [Person]
-    ) {
-        self.persons = persons
-    }
-}
-
-let anyPerson = PersonBuilder().build()
-let max = PersonBuilder(name: "Max", favouriteSeason: .summer).build()
-let appState = AppStateBuilder(persons: [max]).build()
 ```
 Expanded macro
 ```swift
-struct PersonBuilder {
-    var name: String = ""
-    var age: Int = 0
-    var address: Address = AddressBuilder().build()
-    var favouriteSeason: Season = SeasonBuilder().build()
+final class PersonBuilder {
+    private var name: String
+    private var age: Int
+    private var photoURL: URL?
 
-    func build() -> Person {
+    init(name: String, age: Int, photoURL: URL? = nil) {
+        self.name = name
+        self.age = age
+        self.photoURL = photoURL
+    }
+
+    convenience init(_ person: Person) {
+        self.init(
+            name: person.name,
+            age: person.age,
+            photoURL: person.photoURL
+        )
+    }
+
+    @discardableResult func set(name: String) -> Self {
+        self.name = name
+        return self
+    }
+
+    @discardableResult func set(age: Int) -> Self {
+        self.age = age
+        return self
+    }
+
+    @discardableResult func set(photoURL: URL?) -> Self {
+        self.photoURL = photoURL
+        return self
+    }
+
+    public func build() -> Person {
         return Person(
             name: name,
             age: age,
-            address: address,
-            favouriteSeason: favouriteSeason
-        )
-    }
-}
-
-public struct SeasonBuilder {
-    public var value: Season = .winter
-
-    public init(
-        value: Season = .winter
-    ) {
-        self.value = value
-    }
-    
-    public func build() -> Season {
-        return value
-    }
-}
-
-struct AppStateBuilder {
-    var persons: [Person] = []
-
-    func build() -> AppState {
-        return AppState(
-            persons: persons
+            photoURL: photoURL
         )
     }
 }
@@ -108,12 +94,7 @@ The library can be installed using Swift Package Manager.
 
 
 ## Features
-- The macro can be applied to `struct`, `enum` and `class` definitions to generate a builder
-- For `struct` definitions without explicit initialisers the macro makes a best guess to derive the memberwise initialiser. Please create a GitHub issue, in case you find any bugs :)
-- For every `init`-parameter a type dependent default value is set (see the below table). For unknown/custom types, the macro will expect another builder to be defined somewhere else
-    - E.x. a known type: `var number: Int = 0`
-    - E.x. an unknown type: `var value: MyValue = MyValueBuilder().build()`
-- By default the top level access level (e.x. `public`, `private`, etc.) of `struct`, `enum` and `class` definition is also appled to the builder. If you need the builder to have a lower access level you can define it via `@Buildable(accessLevel: .internal)`
+- The macro can be applied to `struct` and `class` definitions to generate a builder
 
 ## Limitations
 - If a builder for a specific declaration can not be generated, you can always choose to create it yourself by following the below builder naming pattern:
@@ -125,47 +106,8 @@ The library can be installed using Swift Package Manager.
         }
     }
     ```
-- If a class or a struct has one or more initialisers, the macro will use the first/top one
+- If a class or a struct has one or more initializers, the macro will use the one with greatest amount of arguments required. If two initializers declare the same amount of parameters, the one declared first will be used. Convenienve initializers of classes are skipped from consideration
 - As of Swift 6.2.0 and Xcode 26.0 (02.10.2025) it is not possible to use the generated builders inside the SwiftUI `#Preview` closure
-
-## Builder default values
-The list of default values is limited to the values specified in the below table. 
-If a type e.x. `UnknownType` is not part of the list, the macro will set the default value to `UnknownTypeBuilder().build()`, 
-assuming that the `UnknownTypeBuilder` was created somewhere else.
-
-| Type | Default Value |
-| - | - |
-| UnknownType | UnknownTypeBuilder().build() |
-| String | "" |
-| Int | 0 |
-| Bool | false |
-| Double | 0 |
-| Float | 0 |
-| Date | Date() |
-| UUID | UUID() |
-| [Any] | [] |
-| [Any:Any] | [:] |
-| Any? | *(implicitly nil)* |
-| Any! | *(implicitly nil)* |
-| () -> Void | {} |
-| (Any) -> Void | { \_ in } |
-| (Any, Any) -> Void | { \_, \_ in } |
-| Int8 | 0 |
-| Int16 | 0 |
-| Int32 | 0 |
-| Int46 | 0 |
-| UInt | 0 |
-| UInt8 | 0 |
-| UInt16 | 0 |
-| UInt32 | 0 |
-| UInt46 | 0 |
-| Data | Data() |
-| URL | URL(string: "https://www.google.com")! |
-| CGFloat | 0 |
-| CGPoint | CGPoint() |
-| CGRect | CGRect() |
-| CGSize | CGSize() |
-| CGVector | CGVector() |
 
 
 ## Roadmap

@@ -23,10 +23,9 @@
 // Created by Alexander Schmutz
 //
 
-public enum AccessLevel {
-    case `private`
-    case `fileprivate`
-    case `internal`
-    case `package`
-    case `public`
+import SwiftSyntax
+
+func getBuilderName(from name: TokenSyntax) -> TokenSyntax {
+    TokenSyntax.identifier(name.text + "Builder")
+        .with(\.trailingTrivia, .spaces(1))
 }

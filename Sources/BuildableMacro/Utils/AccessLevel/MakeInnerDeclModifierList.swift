@@ -1,21 +1,43 @@
+// Copyright © 2025 Alexander Schmutz
 //
-//  MakeInnerDeclModifierList.swift
-//  Buildable
+// MIT License
 //
-//  Created by Alexander Schmutz on 12.10.25.
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+//
+// Created by Alexander Schmutz
 //
 
 import SwiftSyntax
 import SwiftSyntaxBuilder
 
-/// Returns a `DeclModifierListSyntax` for properties and functions inside the generated Builder.
-///
-/// - Returns an empty list if the access level is `private`, since otherwise the generated Builder would not be usable
-/// - Returns a new `DeclModifierSyntax` object to exclude any previous prefixed or suffixed newlines
-func makeInnerDeclModifierList(for accessLevel: AccessLevel) -> DeclModifierListSyntax {
+/// Returns a `DeclModifierListSyntax` for declarations inside the generated Builder
+/// that need the same access level as the outer Builder class.
+func makeInnerDeclAccessModifierList(for accessLevel: AccessLevel)
+    -> DeclModifierListSyntax
+{
     if accessLevel == .internal || accessLevel == .private {
         return []
     } else {
-        return [DeclModifierSyntax(name: TokenSyntax(stringLiteral: accessLevel.rawValue))]
+        return [
+            DeclModifierSyntax(
+                name: TokenSyntax(stringLiteral: accessLevel.rawValue)
+            )
+        ]
     }
 }

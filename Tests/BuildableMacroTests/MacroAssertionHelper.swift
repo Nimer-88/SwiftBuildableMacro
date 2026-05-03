@@ -39,33 +39,28 @@
 // any manner for purposes of training artificial intelligence technologies to
 // generate text without Sebastian Matusik’s specific and express permission.
 //
-// Created by Alexander Schmutz
-// Modified by Sebastian Matusik
+// Created by Sebastian Matusik
 //
 
-import Buildable
-import Foundation
+import SwiftDiagnostics
+import SwiftSyntax
+import SwiftSyntaxMacroExpansion
+import SwiftSyntaxMacrosGenericTestSupport
+import Testing
 
-@Buildable
-public struct Person: Sendable {
-    let name: String
-    let age: Int
-    let photoURL: URL?
+func assertMacroExpansion(
+    _ originalSource: String,
+    expandedSource expectedExpandedSource: String,
+    macroSpecs: [String: MacroSpec],
+) {
+    assertMacroExpansion(
+        originalSource,
+        expandedSource: expectedExpandedSource,
+        macroSpecs: macroSpecs,
+        failureHandler: { failure in
+            do {
+                try #require(failure.message.isEmpty)
+            } catch {}
+        }
+    )
 }
-
-@Buildable(accessLevel: .private)
-package class AppState {
-    let people: [Person]
-
-    init(people: [Person]) {
-        self.people = people
-    }
-}
-
-let bob = PersonBuilder(name: "Bob", age: 28).build()
-let max = PersonBuilder(name: "Max", age: 21).build()
-let modifiedBob = PersonBuilder(bob).set(age: 29).build()
-let appState = AppStateBuilder(people: [
-    modifiedBob, max,
-])
-.build()

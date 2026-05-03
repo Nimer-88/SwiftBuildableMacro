@@ -1,137 +1,307 @@
+// Copyright © 2025 Sebastian Matusik
 //
-//  BuildableClassAccessLevelTests.swift
+// MIT License (with no advertisement clause)
 //
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 //
-//  Created by Alexander Schmutz on 09.02.24.
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+//
+// Except as contained in this notice, the name of Sebastian Matusik shall not
+// be used in advertising or otherwise to promote the sale, use or other
+// dealings in this Software without prior written authorization from
+// Sebastian Matusik.
+//
+// NO GENERATIVE AI TRAINING USE.
+//
+// For avoidance of doubt, Sebastian Matusik reserves the rights, and any person
+// obtaining a copy of this software and associated documentation files has no
+// rights to, reproduce and/or otherwise use the Work in any manner for purposes
+// of training artificial intelligence technologies to generate text, including
+// without limitation, technologies that are capable of generating works in
+// the same style or genre as the Work, unless such person obtains Sebastian
+// Matusik’s specific and express permission to do so. Nor does any person
+// obtaining a copy of this software and associated documentation files have
+// the right to sublicense others to reproduce and/or otherwise use the Work in
+// any manner for purposes of training artificial intelligence technologies to
+// generate text without Sebastian Matusik’s specific and express permission.
+//
+// Created by Sebastian Matusik
 //
 
-import XCTest
-import SwiftSyntaxMacrosTestSupport
+import SwiftSyntaxMacros
+import SwiftSyntaxMacrosGenericTestSupport
+import Testing
 
-class BuildableClassAccessLevelTests: XCTestCase {
-    
-    func test_should_apply_fileprivate_access_level() {
-        assertMacroExpansion(
-            """
-            @Buildable
+@Test func test_should_apply_fileprivate_access_level() {
+    assertMacroExpansion(
+        """
+        @Buildable
+        fileprivate class MyClass {
+            let m1: String
+            let m2: String
+
+            fileprivate init(
+                m1: String,
+                m2: String
+            ) {
+                self.m1 = m1
+                self.m2 = m2
+            }
+        }
+        """,
+        expandedSource: """
+
             fileprivate class MyClass {
                 let m1: String
+                let m2: String
 
                 fileprivate init(
-                    m1: String = ""
+                    m1: String,
+                    m2: String
                 ) {
                     self.m1 = m1
-                }
-            }
-            """,
-            expandedSource: """
-
-            fileprivate class MyClass {
-                let m1: String
-
-                fileprivate init(
-                    m1: String = ""
-                ) {
-                    self.m1 = m1
+                    self.m2 = m2
                 }
             }
 
-            fileprivate struct MyClassBuilder {
-                fileprivate var m1: String = ""
+            fileprivate final class MyClassBuilder {
+                private var m1: String
+                private var m2: String
+
+                fileprivate init(
+                    m1: String,
+                    m2: String
+                ) {
+                    self.m1 = m1
+                    self.m2 = m2
+                }
+
+                fileprivate convenience init(_ myClass: MyClass) {
+                    self.init(
+                        m1: myClass.m1,
+                        m2: myClass.m2
+                    )
+                }
+
+                @discardableResult fileprivate func set(m1: String) -> Self {
+                    self.m1 = m1
+                    return self
+                }
+
+                @discardableResult fileprivate func set(m2: String) -> Self {
+                    self.m2 = m2
+                    return self
+                }
 
                 fileprivate func build() -> MyClass {
                     return MyClass(
-                        m1: m1
+                        m1: m1,
+                        m2: m2
                     )
                 }
             }
 
             """,
-            macros: testMacros
-        )
-    }
-    
-    func test_should_apply_public_and_package_access_levels_with_init() {
-        let accessLevels = [
-            "package",
-            "public"
-        ]
-        for accessLevel in accessLevels {
-            assertMacroExpansion(
-                """
-                @Buildable
+        macroSpecs: testMacros
+    )
+}
+
+@Test func test_should_apply_public_and_package_access_levels_with_init() {
+    let accessLevels = [
+        "package",
+        "public",
+    ]
+    for accessLevel in accessLevels {
+        assertMacroExpansion(
+            """
+            @Buildable
+            \(accessLevel) class MyClass {
+                let m1: String
+                let m2: String?
+
+                \(accessLevel) init(
+                    m1: String,
+                    m2: String? = nil
+                ) {
+                    self.m1 = m1
+                    self.m2 = m2
+                }
+            }
+            """,
+            expandedSource: """
+
                 \(accessLevel) class MyClass {
                     let m1: String
+                    let m2: String?
 
                     \(accessLevel) init(
-                        m1: String = ""
+                        m1: String,
+                        m2: String? = nil
                     ) {
                         self.m1 = m1
-                    }
-                }
-                """,
-                expandedSource: """
-
-                \(accessLevel) class MyClass {
-                    let m1: String
-
-                    \(accessLevel) init(
-                        m1: String = ""
-                    ) {
-                        self.m1 = m1
+                        self.m2 = m2
                     }
                 }
 
-                \(accessLevel) struct MyClassBuilder {
-                    \(accessLevel) var m1: String = ""
+                \(accessLevel) final class MyClassBuilder {
+                    private var m1: String
+                    private var m2: String?
 
                     \(accessLevel) init(
-                        m1: String = ""
+                        m1: String,
+                        m2: String? = nil
                     ) {
                         self.m1 = m1
+                        self.m2 = m2
+                    }
+
+                    \(accessLevel) convenience init(_ myClass: MyClass) {
+                        self.init(
+                            m1: myClass.m1,
+                            m2: myClass.m2
+                        )
+                    }
+
+                    @discardableResult \(accessLevel) func set(m1: String) -> Self {
+                        self.m1 = m1
+                        return self
+                    }
+
+                    @discardableResult \(accessLevel) func set(m2: String?) -> Self {
+                        self.m2 = m2
+                        return self
                     }
 
                     \(accessLevel) func build() -> MyClass {
                         return MyClass(
-                            m1: m1
+                            m1: m1,
+                            m2: m2
                         )
                     }
                 }
 
                 """,
-                macros: testMacros
-            )
+            macroSpecs: testMacros
+        )
+    }
+}
+
+@Test func test_should_not_print_internal_access_level() {
+    assertMacroExpansion(
+        """
+        @Buildable
+        internal class MyClass {
+            let m1: String?
+
+            init(
+                m1: String? = nil
+            ) {
+                self.m1 = m1
+            }
         }
-    }
-    
-    func test_should_not_print_internal_access_level() {
-        assertMacroExpansion(
-            """
-            @Buildable
+        """,
+        expandedSource: """
+
             internal class MyClass {
-                let m1: String
+                let m1: String?
 
                 init(
-                    m1: String = ""
+                    m1: String? = nil
                 ) {
                     self.m1 = m1
+                }
+            }
+
+            final class MyClassBuilder {
+                private var m1: String?
+
+                init(
+                    m1: String? = nil
+                ) {
+                    self.m1 = m1
+                }
+
+                convenience init(_ myClass: MyClass) {
+                    self.init(
+                        m1: myClass.m1
+                    )
+                }
+
+                @discardableResult func set(m1: String?) -> Self {
+                    self.m1 = m1
+                    return self
+                }
+
+                func build() -> MyClass {
+                    return MyClass(
+                        m1: m1
+                    )
                 }
             }
             """,
-            expandedSource: """
+        macroSpecs: testMacros
+    )
+}
 
-            internal class MyClass {
+@Test func test_should_apply_private_access_level_not_for_inner_properties() {
+    assertMacroExpansion(
+        """
+        @Buildable
+        private class MyClass {
+            let m1: String
+
+            init(
+                m1: String
+            ) {
+                self.m1 = m1
+            }
+        }
+        """,
+        expandedSource: """
+
+            private class MyClass {
                 let m1: String
 
                 init(
-                    m1: String = ""
+                    m1: String
                 ) {
                     self.m1 = m1
                 }
             }
 
-            struct MyClassBuilder {
-                var m1: String = ""
+            private final class MyClassBuilder {
+                private var m1: String
+
+                init(
+                    m1: String
+                ) {
+                    self.m1 = m1
+                }
+
+                convenience init(_ myClass: MyClass) {
+                    self.init(
+                        m1: myClass.m1
+                    )
+                }
+
+                @discardableResult func set(m1: String) -> Self {
+                    self.m1 = m1
+                    return self
+                }
 
                 func build() -> MyClass {
                     return MyClass(
@@ -141,79 +311,55 @@ class BuildableClassAccessLevelTests: XCTestCase {
             }
 
             """,
-            macros: testMacros
-        )
-    }
-    
-    func test_should_apply_private_access_level_not_for_inner_properties() {
-        assertMacroExpansion(
-            """
-            @Buildable
-            private class MyClass {
+        macroSpecs: testMacros
+    )
+}
+
+@Test func test_should_apply_custom_package_access_level() {
+    assertMacroExpansion(
+        """
+        @Buildable(accessLevel: .fileprivate)
+        public class MyClass {
+            let m1: String
+
+            public init(
+                m1: String
+            ) {
+                self.m1 = m1
+            }
+        }
+        """,
+        expandedSource: """
+
+            public class MyClass {
                 let m1: String
 
-                init(
-                    m1: String = ""
+                public init(
+                    m1: String
                 ) {
                     self.m1 = m1
                 }
             }
-            """,
-            expandedSource: """
 
-            private class MyClass {
-                let m1: String
+            fileprivate final class MyClassBuilder {
+                private var m1: String
 
-                init(
-                    m1: String = ""
+                fileprivate init(
+                    m1: String
                 ) {
                     self.m1 = m1
                 }
-            }
 
-            private struct MyClassBuilder {
-                var m1: String = ""
-
-                func build() -> MyClass {
-                    return MyClass(
-                        m1: m1
+                fileprivate convenience init(_ myClass: MyClass) {
+                    self.init(
+                        m1: myClass.m1
                     )
                 }
-            }
 
-            """,
-            macros: testMacros
-        )
-    }
-    
-    func test_should_apply_custom_package_access_level() {
-        assertMacroExpansion(
-            """
-            @Buildable(accessLevel: .fileprivate)
-            public class MyClass {
-                let m1: String
-
-                public init(
-                    m1: String = ""
-                ) {
+                @discardableResult fileprivate func set(m1: String) -> Self {
                     self.m1 = m1
+                    return self
                 }
-            }
-            """,
-            expandedSource: """
-
-            public class MyClass {
-                let m1: String
-
-                public init(
-                    m1: String = ""
-                ) {
-                    self.m1 = m1
-                }
-            }
-
-            fileprivate struct MyClassBuilder {
-                fileprivate var m1: String = ""
 
                 fileprivate func build() -> MyClass {
                     return MyClass(
@@ -223,8 +369,6 @@ class BuildableClassAccessLevelTests: XCTestCase {
             }
 
             """,
-            macros: testMacros
-        )
-    }
+        macroSpecs: testMacros
+    )
 }
-

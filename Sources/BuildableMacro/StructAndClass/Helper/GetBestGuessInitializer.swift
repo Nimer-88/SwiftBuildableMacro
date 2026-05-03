@@ -39,33 +39,35 @@
 // any manner for purposes of training artificial intelligence technologies to
 // generate text without Sebastian Matusik’s specific and express permission.
 //
-// Created by Alexander Schmutz
-// Modified by Sebastian Matusik
+// Created by Sebastian Matusik
 //
 
-import Buildable
-import Foundation
+import SwiftSyntax
 
-@Buildable
-public struct Person: Sendable {
-    let name: String
-    let age: Int
-    let photoURL: URL?
-}
+func getBestGuessInitializer(from memberBlock: MemberBlockSyntax)
+    -> InitializerDeclSyntax?
+{
+    let initializers = memberBlock.members
+        .compactMap { $0.decl.as(InitializerDeclSyntax.self) }
+    var bestGuessInitializer: InitializerDeclSyntax? = nil
+    for initializer in initializers {
+        let isConvenience = initializer.modifiers.contains { modifier in
+            modifier.name.tokenKind == .keyword(.convenience)
+        }
+        if isConvenience {
+            continue
+        }
 
-@Buildable(accessLevel: .private)
-package class AppState {
-    let people: [Person]
-
-    init(people: [Person]) {
-        self.people = people
+        if let currentBestInitializer = bestGuessInitializer {
+            if currentBestInitializer.signature.parameterClause.parameters.count
+                < initializer.signature.parameterClause.parameters.count
+            {
+                bestGuessInitializer = initializer
+            }
+        } else {
+            bestGuessInitializer = initializer
+        }
     }
-}
 
-let bob = PersonBuilder(name: "Bob", age: 28).build()
-let max = PersonBuilder(name: "Max", age: 21).build()
-let modifiedBob = PersonBuilder(bob).set(age: 29).build()
-let appState = AppStateBuilder(people: [
-    modifiedBob, max,
-])
-.build()
+    return bestGuessInitializer
+}

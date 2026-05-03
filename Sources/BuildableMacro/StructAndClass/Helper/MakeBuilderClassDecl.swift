@@ -39,33 +39,70 @@
 // any manner for purposes of training artificial intelligence technologies to
 // generate text without Sebastian Matusik’s specific and express permission.
 //
-// Created by Alexander Schmutz
-// Modified by Sebastian Matusik
+// Created by Sebastian Matusik
 //
 
-import Buildable
-import Foundation
+import SwiftSyntax
+import SwiftSyntaxBuilder
 
-@Buildable
-public struct Person: Sendable {
-    let name: String
-    let age: Int
-    let photoURL: URL?
-}
+func makeBuilderClassDecl(
+    structName: TokenSyntax,
+    structMembers: [StructMember],
+    accessLevel: AccessLevel,
+    hasCustomInitializer: Bool,
+) -> ClassDeclSyntax {
+    ClassDeclSyntax(
+        modifiers: makeBuilderClassOuterDeclModifierList(for: accessLevel),
+        name: getBuilderName(from: structName),
+    ) {
+        MemberBlockItemListSyntax {
+            for structMember in structMembers {
+                MemberBlockItemSyntax(
+                    decl: makeVariableDecl(
+                        structMember: structMember,
+                        accessLevel: accessLevel
+                    )
+                )
+            }
 
-@Buildable(accessLevel: .private)
-package class AppState {
-    let people: [Person]
+            if !structMembers.isEmpty {
+                MemberBlockItemSyntax(
+                    leadingTrivia: .newlines(2),
+                    decl: makeExplicitInit(
+                        parameters: structMembers.map(\.asInitParameter),
+                        accessLevel: accessLevel
+                    )
+                )
 
-    init(people: [Person]) {
-        self.people = people
+                MemberBlockItemSyntax(
+                    leadingTrivia: .newlines(2),
+                    decl: makeConvenienceInit(
+                        parameters: structMembers.map(\.asInitParameter),
+                        originalTypeName: structName,
+                        accessLevel: accessLevel,
+                        hasCustomInitializer: hasCustomInitializer,
+                    )
+                )
+
+                for structMember in structMembers {
+                    MemberBlockItemSyntax(
+                        leadingTrivia: .newlines(2),
+                        decl: makeSetFunction(
+                            parameter: structMember.asInitParameter,
+                            accessLevel: accessLevel
+                        )
+                    )
+                }
+            }
+
+            MemberBlockItemSyntax(
+                leadingTrivia: .newlines(structMembers.isEmpty ? 1 : 2),
+                decl: makeFunctionDecl(
+                    name: structName,
+                    structMembers: structMembers,
+                    accessLevel: accessLevel
+                )
+            )
+        }
     }
 }
-
-let bob = PersonBuilder(name: "Bob", age: 28).build()
-let max = PersonBuilder(name: "Max", age: 21).build()
-let modifiedBob = PersonBuilder(bob).set(age: 29).build()
-let appState = AppStateBuilder(people: [
-    modifiedBob, max,
-])
-.build()

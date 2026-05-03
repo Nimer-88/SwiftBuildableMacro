@@ -1,99 +1,223 @@
+// Copyright © 2025 Sebastian Matusik
 //
-//  BuildableStructAccesLevelTests.swift
+// MIT License (with no advertisement clause)
 //
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 //
-//  Created by Alexander Schmutz on 13.06.23.
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+//
+// Except as contained in this notice, the name of Sebastian Matusik shall not
+// be used in advertising or otherwise to promote the sale, use or other
+// dealings in this Software without prior written authorization from
+// Sebastian Matusik.
+//
+// NO GENERATIVE AI TRAINING USE.
+//
+// For avoidance of doubt, Sebastian Matusik reserves the rights, and any person
+// obtaining a copy of this software and associated documentation files has no
+// rights to, reproduce and/or otherwise use the Work in any manner for purposes
+// of training artificial intelligence technologies to generate text, including
+// without limitation, technologies that are capable of generating works in
+// the same style or genre as the Work, unless such person obtains Sebastian
+// Matusik’s specific and express permission to do so. Nor does any person
+// obtaining a copy of this software and associated documentation files have
+// the right to sublicense others to reproduce and/or otherwise use the Work in
+// any manner for purposes of training artificial intelligence technologies to
+// generate text without Sebastian Matusik’s specific and express permission.
+//
+// Created by Sebastian Matusik
 //
 
-import XCTest
-import SwiftSyntaxMacrosTestSupport
+import SwiftSyntaxMacros
+import SwiftSyntaxMacrosGenericTestSupport
+import Testing
 
-class BuildableStructAccesLevelTests: XCTestCase {
-    
-    func test_should_apply_fileprivate_access_levels() {
+@Test func test_should_apply_fileprivate_access_levels() {
+    assertMacroExpansion(
+        """
+        @Buildable
+        fileprivate struct Person {
+            let firstName: String
+            let lastName: String
+        }
+        """,
+        expandedSource: """
+
+            fileprivate struct Person {
+                let firstName: String
+                let lastName: String
+            }
+
+            fileprivate final class PersonBuilder {
+                private var firstName: String
+                private var lastName: String
+
+                fileprivate init(
+                    firstName: String,
+                    lastName: String
+                ) {
+                    self.firstName = firstName
+                    self.lastName = lastName
+                }
+
+                fileprivate convenience init(_ person: Person) {
+                    self.init(
+                        firstName: person.firstName,
+                        lastName: person.lastName
+                    )
+                }
+
+                @discardableResult fileprivate func set(firstName: String) -> Self {
+                    self.firstName = firstName
+                    return self
+                }
+
+                @discardableResult fileprivate func set(lastName: String) -> Self {
+                    self.lastName = lastName
+                    return self
+                }
+
+                fileprivate func build() -> Person {
+                    return Person(
+                        firstName: firstName,
+                        lastName: lastName
+                    )
+                }
+            }
+
+            """,
+        macroSpecs: testMacros
+    )
+}
+
+@Test
+func test_should_apply_public_and_package_access_levels_with_init_for_struct() {
+    let accessLevels = [
+        "package",
+        "public",
+    ]
+    for accessLevel in accessLevels {
         assertMacroExpansion(
             """
             @Buildable
-            fileprivate struct Person {
-                let name: String
+            \(accessLevel) struct Person {
+                let firstName: String
+                let lastName: String
+
+                init(
+                    firstName: String = "",
+                    lastName: String = ""
+                ) {
+                    self.firstName = firstName
+                    self.lastName = lastName
+                }
             }
             """,
             expandedSource: """
 
-            fileprivate struct Person {
-                let name: String
-            }
-
-            fileprivate struct PersonBuilder {
-                fileprivate var name: String = ""
-
-                fileprivate func build() -> Person {
-                    return Person(
-                        name: name
-                    )
-                }
-            }
-            """,
-            macros: testMacros
-        )
-    }
-    
-    func test_should_apply_public_and_package_access_levels_with_init() {
-        let accessLevels = [
-            "package",
-            "public"
-        ]
-        for accessLevel in accessLevels {
-            assertMacroExpansion(
-                """
-                @Buildable
                 \(accessLevel) struct Person {
-                    let name: String
-                }
-                """,
-                expandedSource: """
+                    let firstName: String
+                    let lastName: String
 
-                \(accessLevel) struct Person {
-                    let name: String
-                }
-
-                \(accessLevel) struct PersonBuilder {
-                    \(accessLevel) var name: String = ""
-                
-                    \(accessLevel) init(
-                        name: String = ""
+                    init(
+                        firstName: String = "",
+                        lastName: String = ""
                     ) {
-                        self.name = name
+                        self.firstName = firstName
+                        self.lastName = lastName
+                    }
+                }
+
+                \(accessLevel) final class PersonBuilder {
+                    private var firstName: String
+                    private var lastName: String
+
+                    \(accessLevel) init(
+                        firstName: String = "",
+                        lastName: String = ""
+                    ) {
+                        self.firstName = firstName
+                        self.lastName = lastName
+                    }
+
+                    \(accessLevel) convenience init(_ person: Person) {
+                        self.init(
+                            firstName: person.firstName,
+                            lastName: person.lastName
+                        )
+                    }
+
+                    @discardableResult \(accessLevel) func set(firstName: String) -> Self {
+                        self.firstName = firstName
+                        return self
+                    }
+
+                    @discardableResult \(accessLevel) func set(lastName: String) -> Self {
+                        self.lastName = lastName
+                        return self
                     }
 
                     \(accessLevel) func build() -> Person {
                         return Person(
-                            name: name
+                            firstName: firstName,
+                            lastName: lastName
                         )
                     }
                 }
+
                 """,
-                macros: testMacros
-            )
+            macroSpecs: testMacros
+        )
+    }
+}
+
+@Test func test_should_not_print_internal_access_level_for_struct() {
+    assertMacroExpansion(
+        """
+        @Buildable
+        internal struct Person {
+            let name: String
         }
-    }
-    
-    func test_should_not_print_internal_access_level() {
-        assertMacroExpansion(
-            """
-            @Buildable
-            internal struct Person {
-                let name: String
-            }
-            """,
-            expandedSource: """
+        """,
+        expandedSource: """
 
             internal struct Person {
                 let name: String
             }
 
-            struct PersonBuilder {
-                var name: String = ""
+            final class PersonBuilder {
+                private var name: String
+
+                init(
+                    name: String
+                ) {
+                    self.name = name
+                }
+
+                convenience init(_ person: Person) {
+                    self.init(
+                        name: person.name
+                    )
+                }
+
+                @discardableResult func set(name: String) -> Self {
+                    self.name = name
+                    return self
+                }
 
                 func build() -> Person {
                     return Person(
@@ -101,27 +225,48 @@ class BuildableStructAccesLevelTests: XCTestCase {
                     )
                 }
             }
+
             """,
-            macros: testMacros
-        )
-    }
-    
-    func test_should_apply_private_access_level_not_for_inner_properties() {
-        assertMacroExpansion(
-            """
-            @Buildable
-            private struct Person {
-                let name: String
-            }
-            """,
-            expandedSource: """
+        macroSpecs: testMacros
+    )
+}
+
+@Test
+func
+    test_should_apply_private_access_level_not_for_inner_properties_for_struct()
+{
+    assertMacroExpansion(
+        """
+        @Buildable
+        private struct Person {
+            let name: String
+        }
+        """,
+        expandedSource: """
 
             private struct Person {
                 let name: String
             }
 
-            private struct PersonBuilder {
-                var name: String = ""
+            private final class PersonBuilder {
+                private var name: String
+
+                init(
+                    name: String
+                ) {
+                    self.name = name
+                }
+
+                convenience init(_ person: Person) {
+                    self.init(
+                        name: person.name
+                    )
+                }
+
+                @discardableResult func set(name: String) -> Self {
+                    self.name = name
+                    return self
+                }
 
                 func build() -> Person {
                     return Person(
@@ -129,37 +274,55 @@ class BuildableStructAccesLevelTests: XCTestCase {
                     )
                 }
             }
+
             """,
-            macros: testMacros
-        )
-    }
-    
-    func test_should_apply_custom_package_access_level() {
-        assertMacroExpansion(
-            """
-            @Buildable(accessLevel: .package)
-            public struct Person {
-                let name: String
-                let age: Int
-            }
-            """,
-            expandedSource: """
+        macroSpecs: testMacros
+    )
+}
+
+@Test func test_should_apply_custom_package_access_level_for_struct() {
+    assertMacroExpansion(
+        """
+        @Buildable(accessLevel: .package)
+        public struct Person {
+            let name: String
+            let age: Int
+        }
+        """,
+        expandedSource: """
 
             public struct Person {
                 let name: String
                 let age: Int
             }
 
-            package struct PersonBuilder {
-                package var name: String = ""
-                package var age: Int = 0
+            package final class PersonBuilder {
+                private var name: String
+                private var age: Int
 
                 package init(
-                    name: String = "",
-                    age: Int = 0
+                    name: String,
+                    age: Int
                 ) {
                     self.name = name
                     self.age = age
+                }
+
+                package convenience init(_ person: Person) {
+                    self.init(
+                        name: person.name,
+                        age: person.age
+                    )
+                }
+
+                @discardableResult package func set(name: String) -> Self {
+                    self.name = name
+                    return self
+                }
+
+                @discardableResult package func set(age: Int) -> Self {
+                    self.age = age
+                    return self
                 }
 
                 package func build() -> Person {
@@ -169,8 +332,8 @@ class BuildableStructAccesLevelTests: XCTestCase {
                     )
                 }
             }
+
             """,
-            macros: testMacros
-        )
-    }
+        macroSpecs: testMacros
+    )
 }
