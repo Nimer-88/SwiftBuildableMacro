@@ -74,7 +74,7 @@ import Testing
                     self.lastName = lastName
                 }
 
-                fileprivate convenience init(_ person: Person) {
+                fileprivate convenience init(from person: Person) {
                     self.init(
                         firstName: person.firstName,
                         lastName: person.lastName
@@ -154,11 +154,15 @@ func test_should_apply_public_and_package_access_levels_with_init_for_struct() {
                         self.lastName = lastName
                     }
 
-                    \(accessLevel) convenience init(_ person: Person) {
-                        self.init(
-                            firstName: person.firstName,
-                            lastName: person.lastName
-                        )
+                    \(accessLevel) convenience init(from person: Person?) {
+                        if let person {
+                            self.init(
+                                firstName: person.firstName,
+                                lastName: person.lastName
+                            )
+                        } else {
+                            self.init()
+                        }
                     }
 
                     @discardableResult \(accessLevel) func with(firstName: String) -> Self {
@@ -208,7 +212,7 @@ func test_should_apply_public_and_package_access_levels_with_init_for_struct() {
                     self.name = name
                 }
 
-                convenience init(_ person: Person) {
+                convenience init(from person: Person) {
                     self.init(
                         name: person.name
                     )
@@ -257,7 +261,7 @@ func
                     self.name = name
                 }
 
-                convenience init(_ person: Person) {
+                convenience init(from person: Person) {
                     self.init(
                         name: person.name
                     )
@@ -308,7 +312,7 @@ func
                     self.age = age
                 }
 
-                package convenience init(_ person: Person) {
+                package convenience init(from person: Person) {
                     self.init(
                         name: person.name,
                         age: person.age

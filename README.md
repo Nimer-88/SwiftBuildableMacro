@@ -1,3 +1,6 @@
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FNimer-88%2FSwiftBuildableMacro%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/Nimer-88/SwiftBuildableMacro)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FNimer-88%2FSwiftBuildableMacro%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/Nimer-88/SwiftBuildableMacro)
+
 # `@Buildable` Swift Macro
 `@Buildable` is an attached swift macro for structs and classes, which produces a peer class implementing the builder pattern. Based on [SwiftBuildableMacro](https://github.com/alschmut/SwiftBuildableMacro) by [Alexander Schmutz](https://github.com/alschmut).
 ```swift
@@ -11,7 +14,7 @@ struct Person {
 }
 
 let charles = PersonBuilder(name:"Charles", age: 42).build()
-let newCharles = PersonBuilder(charles)
+let newCharles = PersonBuilder(from: charles)
                     .with(photoURL: URL(string: "https://picsum.photos/200"))
                     .build()
 ```
@@ -56,7 +59,7 @@ final class PersonBuilder {
         self.photoURL = photoURL
     }
 
-    convenience init(_ person: Person) {
+    convenience init(from person: Person) {
         self.init(
             name: person.name,
             age: person.age,

@@ -81,7 +81,7 @@ import Testing
                     self.m1 = m1
                 }
 
-                convenience init(_ myClass: MyClass) {
+                convenience init(from myClass: MyClass) {
                     self.init(
                         m1: myClass.m1
                     )
@@ -139,7 +139,7 @@ import Testing
                     self.m1 = m1
                 }
 
-                convenience init(_ myClass: MyClass) {
+                convenience init(from myClass: MyClass) {
                     self.init(
                         m1: myClass.m1
                     )
@@ -233,14 +233,18 @@ import Testing
                     self.m5 = m5
                 }
 
-                convenience init(_ myClass: MyClass) {
-                    self.init(
-                        firstName: myClass.m1,
-                        m2: myClass.m2,
-                        m3: myClass.m3,
-                        m4: myClass.m4,
-                        m5: myClass.m5
-                    )
+                convenience init(from myClass: MyClass?) {
+                    if let myClass {
+                        self.init(
+                            firstName: myClass.m1,
+                            m2: myClass.m2,
+                            m3: myClass.m3,
+                            m4: myClass.m4,
+                            m5: myClass.m5
+                        )
+                    } else {
+                        self.init()
+                    }
                 }
 
                 @discardableResult func with(firstName m1: String) -> Self {
@@ -346,7 +350,7 @@ import Testing
                     self.m2 = m2
                 }
 
-                convenience init(_ myClass: MyClass) {
+                convenience init(from myClass: MyClass) {
                     self.init(
                         m1: myClass.m1,
                         m2: myClass.m2
@@ -432,7 +436,7 @@ import Testing
                     self.m1 = m1
                 }
 
-                convenience init(_ myClass: MyClass) {
+                convenience init(from myClass: MyClass) {
                     self.init(
                         m1: myClass.m1
                     )
@@ -489,10 +493,14 @@ import Testing
                     self.m1 = m1
                 }
 
-                convenience init(_ myClass: MyClass) {
-                    self.init(
-                        m1: myClass.m1
-                    )
+                convenience init(from myClass: MyClass?) {
+                    if let myClass {
+                        self.init(
+                            m1: myClass.m1
+                        )
+                    } else {
+                        self.init()
+                    }
                 }
 
                 @discardableResult func with(m1: String) -> Self {

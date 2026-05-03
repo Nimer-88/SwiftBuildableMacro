@@ -90,7 +90,7 @@ import Testing
                     self.m2 = m2
                 }
 
-                fileprivate convenience init(_ myClass: MyClass) {
+                fileprivate convenience init(from myClass: MyClass) {
                     self.init(
                         m1: myClass.m1,
                         m2: myClass.m2
@@ -169,7 +169,7 @@ import Testing
                         self.m2 = m2
                     }
 
-                    \(accessLevel) convenience init(_ myClass: MyClass) {
+                    \(accessLevel) convenience init(from myClass: MyClass) {
                         self.init(
                             m1: myClass.m1,
                             m2: myClass.m2
@@ -235,10 +235,14 @@ import Testing
                     self.m1 = m1
                 }
 
-                convenience init(_ myClass: MyClass) {
-                    self.init(
-                        m1: myClass.m1
-                    )
+                convenience init(from myClass: MyClass?) {
+                    if let myClass {
+                        self.init(
+                            m1: myClass.m1
+                        )
+                    } else {
+                        self.init()
+                    }
                 }
 
                 @discardableResult func with(m1: String?) -> Self {
@@ -292,7 +296,7 @@ import Testing
                     self.m1 = m1
                 }
 
-                convenience init(_ myClass: MyClass) {
+                convenience init(from myClass: MyClass) {
                     self.init(
                         m1: myClass.m1
                     )
@@ -350,7 +354,7 @@ import Testing
                     self.m1 = m1
                 }
 
-                fileprivate convenience init(_ myClass: MyClass) {
+                fileprivate convenience init(from myClass: MyClass) {
                     self.init(
                         m1: myClass.m1
                     )

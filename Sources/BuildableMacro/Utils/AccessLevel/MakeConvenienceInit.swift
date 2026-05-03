@@ -53,7 +53,24 @@ func makeConvenienceInit(
     hasCustomInitializer: Bool,
 ) -> InitializerDeclSyntax {
     let originalTypeNameTrimmed = originalTypeName.trimmed
-    let camelCaseName = toCamelCase(originalTypeNameTrimmed.text)
+    let argumentName = TokenSyntax.identifier(
+        toCamelCase(originalTypeNameTrimmed.text)
+    )
+    let parametersWithoutDefaultValues = parameters.filter {
+        !$0.isOptional && $0.value == nil
+    }
+    let areAllParametersWithoutDefaultValue = parametersWithoutDefaultValues
+        .isEmpty
+    let fromType: any TypeSyntaxProtocol =
+        areAllParametersWithoutDefaultValue
+        ? OptionalTypeSyntax(
+            wrappedType: TypeSyntax(
+                stringLiteral: originalTypeNameTrimmed.text
+            )
+        )
+        : TypeSyntax(
+            stringLiteral: originalTypeNameTrimmed.text
+        )
 
     return InitializerDeclSyntax(
         modifiers: makeInnerDeclAccessModifierList(for: accessLevel) + [
@@ -65,11 +82,9 @@ func makeConvenienceInit(
                 leftParen: .leftParenToken(),
                 parameters: FunctionParameterListSyntax {
                     FunctionParameterSyntax(
-                        firstName: .identifier("_"),
-                        secondName: .identifier(camelCaseName),
-                        type: TypeSyntax(
-                            stringLiteral: originalTypeNameTrimmed.text
-                        )
+                        firstName: .identifier("from"),
+                        secondName: argumentName,
+                        type: fromType
                     )
                 },
                 rightParen: .rightParenToken()
@@ -77,10 +92,17 @@ func makeConvenienceInit(
         ),
         bodyBuilder: {
             CodeBlockItemListSyntax {
-                makeConvenienceInitBody(
-                    parameters: parameters,
-                    baseName: camelCaseName
-                )
+                if areAllParametersWithoutDefaultValue {
+                    makeIfLetConvenienceInitChoice(
+                        parameters: parameters,
+                        argumentName: argumentName
+                    )
+                } else {
+                    makeConvenienceInitCall(
+                        parameters: parameters,
+                        argumentName: argumentName,
+                    )
+                }
             }
         }
     )
@@ -91,21 +113,73 @@ private func toCamelCase(_ name: String) -> String {
     return String(name.prefix(1).lowercased()) + name.dropFirst()
 }
 
-private func makeConvenienceInitBody(
+private func makeIfLetConvenienceInitChoice(
     parameters: [InitParameter],
-    baseName: String
+    argumentName: TokenSyntax,
+) -> CodeBlockItemSyntax {
+    CodeBlockItemSyntax(
+        item: CodeBlockItemSyntax.Item(
+            ExpressionStmtSyntax(
+                expression:
+                    IfExprSyntax(
+                        conditions: ConditionElementListSyntax {
+                            OptionalBindingConditionSyntax(
+                                bindingSpecifier: .keyword(.let),
+                                pattern: IdentifierPatternSyntax(
+                                    identifier: argumentName
+                                )
+                            )
+                        },
+                        body: CodeBlockSyntax {
+                            makeConvenienceInitCall(
+                                parameters: parameters,
+                                argumentName: argumentName
+                            )
+                        },
+                        elseKeyword: .keyword(.else),
+                        elseBody: IfExprSyntax.ElseBody(
+                            CodeBlockSyntax {
+                                makeConvenienceInitCall()
+                            }
+                        )
+                    )
+            )
+        )
+    )
+}
+
+private func makeConvenienceInitCall() -> CodeBlockItemSyntax {
+    let selfInitCall = FunctionCallExprSyntax(
+        calledExpression: MemberAccessExprSyntax(
+            base: DeclReferenceExprSyntax(baseName: .keyword(.`self`)),
+            name: .keyword(.`init`)
+        ),
+        leftParen: .leftParenToken(),
+        arguments: [],
+        rightParen: .rightParenToken()
+    )
+
+    return CodeBlockItemSyntax(
+        item: CodeBlockItemSyntax.Item(selfInitCall)
+    )
+}
+
+private func makeConvenienceInitCall(
+    parameters: [InitParameter],
+    argumentName: TokenSyntax,
 ) -> CodeBlockItemSyntax {
     let labeledExprs: [LabeledExprSyntax] = parameters.enumerated().map {
         index,
         parameter in
         let label =
-            if parameter.alias?.text == "_" { parameter.identifier }
-            else { parameter.alias ?? parameter.identifier }
+            if parameter.alias?.text == "_" { parameter.identifier } else {
+                parameter.alias ?? parameter.identifier
+            }
         var labeledExpr = LabeledExprSyntax(
             label: label,
             colon: TokenSyntax(TokenKind.colon, presence: .present),
             expression: MemberAccessExprSyntax(
-                base: DeclReferenceExprSyntax(baseName: .identifier(baseName)),
+                base: DeclReferenceExprSyntax(baseName: argumentName),
                 name: parameter.identifier
             )
         )
@@ -116,7 +190,6 @@ private func makeConvenienceInitBody(
         }
         return labeledExpr
     }
-    let arguments = LabeledExprListSyntax(labeledExprs)
 
     let selfInitCall = FunctionCallExprSyntax(
         calledExpression: MemberAccessExprSyntax(
@@ -124,36 +197,13 @@ private func makeConvenienceInitBody(
             name: .keyword(.`init`)
         ),
         leftParen: .leftParenToken(trailingTrivia: .newlines(1)),
-        arguments: arguments,
+        arguments: LabeledExprListSyntax {
+            labeledExprs
+        },
         rightParen: .rightParenToken(leadingTrivia: .newlines(1))
     )
 
     return CodeBlockItemSyntax(
         item: CodeBlockItemSyntax.Item(selfInitCall)
-    )
-}
-
-private func makeConvenienceInitDirectAssignment(
-    parameter: InitParameter,
-    baseName: String
-) -> CodeBlockItemSyntax {
-    CodeBlockItemSyntax(
-        item: CodeBlockItemSyntax.Item(
-            InfixOperatorExprSyntax(
-                leftOperand: MemberAccessExprSyntax(
-                    base: DeclReferenceExprSyntax(
-                        baseName: .keyword(.`self`)
-                    ),
-                    name: parameter.identifier
-                ),
-                operator: AssignmentExprSyntax(),
-                rightOperand: MemberAccessExprSyntax(
-                    base: DeclReferenceExprSyntax(
-                        baseName: .identifier(baseName)
-                    ),
-                    name: parameter.identifier
-                )
-            )
-        )
     )
 }

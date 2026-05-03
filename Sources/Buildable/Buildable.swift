@@ -68,7 +68,7 @@
 ///             self.photoURL = photoURL
 ///         }
 ///
-///         convenience init(_ person: Person) {
+///         convenience init(from person: Person) {
 ///             self.init(
 ///                 name: person.name,
 ///                 age: person.age,

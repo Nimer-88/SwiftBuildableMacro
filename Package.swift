@@ -1,4 +1,4 @@
-// swift-tools-version: 6.3
+// swift-tools-version: 6.2
 
 // Copyright © 2025 Alexander Schmutz
 //

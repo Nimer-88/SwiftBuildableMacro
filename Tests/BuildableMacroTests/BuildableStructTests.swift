@@ -69,7 +69,7 @@ import Testing
                     self.name = name
                 }
 
-                convenience init(_ person: Person) {
+                convenience init(from person: Person) {
                     self.init(
                         name: person.name
                     )
@@ -120,7 +120,7 @@ import Testing
                     self.middleName = middleName
                 }
 
-                convenience init(_ person: Person) {
+                convenience init(from person: Person) {
                     self.init(
                         name: person.name,
                         middleName: person.middleName
@@ -178,11 +178,15 @@ import Testing
                     self.m2 = m2
                 }
 
-                convenience init(_ myObject: MyObject) {
-                    self.init(
-                        m1: myObject.m1,
-                        m2: myObject.m2
-                    )
+                convenience init(from myObject: MyObject?) {
+                    if let myObject {
+                        self.init(
+                            m1: myObject.m1,
+                            m2: myObject.m2
+                        )
+                    } else {
+                        self.init()
+                    }
                 }
 
                 @discardableResult func with(m1: String?) -> Self {
@@ -238,7 +242,7 @@ import Testing
                     self.m1 = m1
                 }
 
-                convenience init(_ myObject: MyObject) {
+                convenience init(from myObject: MyObject) {
                     self.init(
                         m1: myObject.m1
                     )
@@ -294,7 +298,7 @@ import Testing
                     self.m3 = m3
                 }
 
-                convenience init(_ myObject: MyObject) {
+                convenience init(from myObject: MyObject) {
                     self.init(
                         m1: myObject.m1,
                         m2: myObject.m2,
@@ -355,7 +359,7 @@ func test_should_set_default_value_to_nil_for_implicitly_unwrapped_optional() {
                     self.m1 = m1
                 }
 
-                convenience init(_ myObject: MyObject) {
+                convenience init(from myObject: MyObject) {
                     self.init(
                         m1: myObject.m1
                     )
@@ -489,12 +493,16 @@ func test_should_set_default_value_to_nil_for_implicitly_unwrapped_optional() {
                     self.m4 = m4
                 }
 
-                convenience init(_ myObject: MyObject) {
-                    self.init(
-                        m1: myObject.m1,
-                        m3: myObject.m3,
-                        m4: myObject.m4
-                    )
+                convenience init(from myObject: MyObject?) {
+                    if let myObject {
+                        self.init(
+                            m1: myObject.m1,
+                            m3: myObject.m3,
+                            m4: myObject.m4
+                        )
+                    } else {
+                        self.init()
+                    }
                 }
 
                 @discardableResult func with(m1: String?) -> Self {
@@ -551,10 +559,14 @@ func test_should_set_default_value_to_nil_for_implicitly_unwrapped_optional() {
                     self.m1 = m1
                 }
 
-                convenience init(_ myObject: MyObject) {
-                    self.init(
-                        m1: myObject.m1
-                    )
+                convenience init(from myObject: MyObject?) {
+                    if let myObject {
+                        self.init(
+                            m1: myObject.m1
+                        )
+                    } else {
+                        self.init()
+                    }
                 }
 
                 @discardableResult func with(m1: String?) -> Self {
@@ -625,7 +637,7 @@ func test_should_set_default_value_to_nil_for_implicitly_unwrapped_optional() {
                     self.m2 = m2
                 }
 
-                convenience init(_ myObject: MyObject) {
+                convenience init(from myObject: MyObject) {
                     self.init(
                         m2: myObject.m2
                     )
@@ -671,7 +683,7 @@ func test_should_set_default_value_to_nil_for_implicitly_unwrapped_optional() {
                     self.m1 = m1
                 }
 
-                convenience init(_ myObject: MyObject) {
+                convenience init(from myObject: MyObject) {
                     self.init(
                         m1: myObject.m1
                     )
@@ -802,7 +814,7 @@ func test_should_set_default_value_to_nil_for_implicitly_unwrapped_optional() {
                     self.m18 = m18
                 }
 
-                convenience init(_ myObject: MyObject) {
+                convenience init(from myObject: MyObject) {
                     self.init(
                         m01: myObject.m01,
                         m02: myObject.m02,
@@ -977,10 +989,14 @@ func test_should_set_default_value_to_nil_for_implicitly_unwrapped_optional() {
                     self.m1 = m1
                 }
 
-                convenience init(_ myClass: MyClass) {
-                    self.init(
-                        m1: myClass.m1
-                    )
+                convenience init(from myClass: MyClass?) {
+                    if let myClass {
+                        self.init(
+                            m1: myClass.m1
+                        )
+                    } else {
+                        self.init()
+                    }
                 }
 
                 @discardableResult func with(m1: String) -> Self {
