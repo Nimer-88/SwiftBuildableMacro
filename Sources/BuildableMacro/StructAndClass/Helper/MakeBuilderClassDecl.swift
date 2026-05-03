@@ -87,7 +87,7 @@ func makeBuilderClassDecl(
                 for structMember in structMembers {
                     MemberBlockItemSyntax(
                         leadingTrivia: .newlines(2),
-                        decl: makeSetFunction(
+                        decl: makeWithFunction(
                             parameter: structMember.asInitParameter,
                             accessLevel: accessLevel
                         )

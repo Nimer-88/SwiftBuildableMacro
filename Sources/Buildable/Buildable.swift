@@ -76,17 +76,17 @@
 ///             )
 ///         }
 ///
-///         @discardableResult func set(name: String) -> Self {
+///         @discardableResult func with(name: String) -> Self {
 ///             self.name = name
 ///             return self
 ///         }
 ///
-///         @discardableResult func set(age: Int) -> Self {
+///         @discardableResult func with(age: Int) -> Self {
 ///             self.age = age
 ///             return self
 ///         }
 ///
-///         @discardableResult func set(photoURL: URL?) -> Self {
+///         @discardableResult func with(photoURL: URL?) -> Self {
 ///             self.photoURL = photoURL
 ///             return self
 ///         }

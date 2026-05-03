@@ -12,7 +12,7 @@ struct Person {
 
 let charles = PersonBuilder(name:"Charles", age: 42).build()
 let newCharles = PersonBuilder(charles)
-                    .set(photoURL: URL(string: "https://picsum.photos/200"))
+                    .with(photoURL: URL(string: "https://picsum.photos/200"))
                     .build()
 ```
 
@@ -64,17 +64,17 @@ final class PersonBuilder {
         )
     }
 
-    @discardableResult func set(name: String) -> Self {
+    @discardableResult func with(name: String) -> Self {
         self.name = name
         return self
     }
 
-    @discardableResult func set(age: Int) -> Self {
+    @discardableResult func with(age: Int) -> Self {
         self.age = age
         return self
     }
 
-    @discardableResult func set(photoURL: URL?) -> Self {
+    @discardableResult func with(photoURL: URL?) -> Self {
         self.photoURL = photoURL
         return self
     }

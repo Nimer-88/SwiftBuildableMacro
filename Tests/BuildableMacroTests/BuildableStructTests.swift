@@ -75,7 +75,7 @@ import Testing
                     )
                 }
 
-                @discardableResult func set(name: String) -> Self {
+                @discardableResult func with(name: String) -> Self {
                     self.name = name
                     return self
                 }
@@ -127,12 +127,12 @@ import Testing
                     )
                 }
 
-                @discardableResult func set(name: String) -> Self {
+                @discardableResult func with(name: String) -> Self {
                     self.name = name
                     return self
                 }
 
-                @discardableResult func set(middleName: String) -> Self {
+                @discardableResult func with(middleName: String) -> Self {
                     self.middleName = middleName
                     return self
                 }
@@ -185,12 +185,12 @@ import Testing
                     )
                 }
 
-                @discardableResult func set(m1: String?) -> Self {
+                @discardableResult func with(m1: String?) -> Self {
                     self.m1 = m1
                     return self
                 }
 
-                @discardableResult func set(m2: [Int]?) -> Self {
+                @discardableResult func with(m2: [Int]?) -> Self {
                     self.m2 = m2
                     return self
                 }
@@ -244,7 +244,7 @@ import Testing
                     )
                 }
 
-                @discardableResult func set(m1: MyOtherObject) -> Self {
+                @discardableResult func with(m1: MyOtherObject) -> Self {
                     self.m1 = m1
                     return self
                 }
@@ -302,17 +302,17 @@ import Testing
                     )
                 }
 
-                @discardableResult func set(m1: [String]) -> Self {
+                @discardableResult func with(m1: [String]) -> Self {
                     self.m1 = m1
                     return self
                 }
 
-                @discardableResult func set(m2: [Int]) -> Self {
+                @discardableResult func with(m2: [Int]) -> Self {
                     self.m2 = m2
                     return self
                 }
 
-                @discardableResult func set(m3: [String: String]) -> Self {
+                @discardableResult func with(m3: [String: String]) -> Self {
                     self.m3 = m3
                     return self
                 }
@@ -361,7 +361,7 @@ func test_should_set_default_value_to_nil_for_implicitly_unwrapped_optional() {
                     )
                 }
 
-                @discardableResult func set(m1: String!) -> Self {
+                @discardableResult func with(m1: String!) -> Self {
                     self.m1 = m1
                     return self
                 }
@@ -497,17 +497,17 @@ func test_should_set_default_value_to_nil_for_implicitly_unwrapped_optional() {
                     )
                 }
 
-                @discardableResult func set(m1: String?) -> Self {
+                @discardableResult func with(m1: String?) -> Self {
                     self.m1 = m1
                     return self
                 }
 
-                @discardableResult func set(m3: String?) -> Self {
+                @discardableResult func with(m3: String?) -> Self {
                     self.m3 = m3
                     return self
                 }
 
-                @discardableResult func set(m4: String?) -> Self {
+                @discardableResult func with(m4: String?) -> Self {
                     self.m4 = m4
                     return self
                 }
@@ -557,7 +557,7 @@ func test_should_set_default_value_to_nil_for_implicitly_unwrapped_optional() {
                     )
                 }
 
-                @discardableResult func set(m1: String?) -> Self {
+                @discardableResult func with(m1: String?) -> Self {
                     self.m1 = m1
                     return self
                 }
@@ -631,7 +631,7 @@ func test_should_set_default_value_to_nil_for_implicitly_unwrapped_optional() {
                     )
                 }
 
-                @discardableResult func set(m2: String) -> Self {
+                @discardableResult func with(m2: String) -> Self {
                     self.m2 = m2
                     return self
                 }
@@ -677,7 +677,7 @@ func test_should_set_default_value_to_nil_for_implicitly_unwrapped_optional() {
                     )
                 }
 
-                @discardableResult func set(m1: String) -> Self {
+                @discardableResult func with(m1: String) -> Self {
                     self.m1 = m1
                     return self
                 }
@@ -825,92 +825,92 @@ func test_should_set_default_value_to_nil_for_implicitly_unwrapped_optional() {
                     )
                 }
 
-                @discardableResult func set(m01: String) -> Self {
+                @discardableResult func with(m01: String) -> Self {
                     self.m01 = m01
                     return self
                 }
 
-                @discardableResult func set(m02: Int) -> Self {
+                @discardableResult func with(m02: Int) -> Self {
                     self.m02 = m02
                     return self
                 }
 
-                @discardableResult func set(m03: Int8) -> Self {
+                @discardableResult func with(m03: Int8) -> Self {
                     self.m03 = m03
                     return self
                 }
 
-                @discardableResult func set(m04: Int16) -> Self {
+                @discardableResult func with(m04: Int16) -> Self {
                     self.m04 = m04
                     return self
                 }
 
-                @discardableResult func set(m05: Int32) -> Self {
+                @discardableResult func with(m05: Int32) -> Self {
                     self.m05 = m05
                     return self
                 }
 
-                @discardableResult func set(m06: Int64) -> Self {
+                @discardableResult func with(m06: Int64) -> Self {
                     self.m06 = m06
                     return self
                 }
 
-                @discardableResult func set(m07: UInt) -> Self {
+                @discardableResult func with(m07: UInt) -> Self {
                     self.m07 = m07
                     return self
                 }
 
-                @discardableResult func set(m08: UInt8) -> Self {
+                @discardableResult func with(m08: UInt8) -> Self {
                     self.m08 = m08
                     return self
                 }
 
-                @discardableResult func set(m09: UInt16) -> Self {
+                @discardableResult func with(m09: UInt16) -> Self {
                     self.m09 = m09
                     return self
                 }
 
-                @discardableResult func set(m10: UInt32) -> Self {
+                @discardableResult func with(m10: UInt32) -> Self {
                     self.m10 = m10
                     return self
                 }
 
-                @discardableResult func set(m11: UInt64) -> Self {
+                @discardableResult func with(m11: UInt64) -> Self {
                     self.m11 = m11
                     return self
                 }
 
-                @discardableResult func set(m12: Bool) -> Self {
+                @discardableResult func with(m12: Bool) -> Self {
                     self.m12 = m12
                     return self
                 }
 
-                @discardableResult func set(m13: Double) -> Self {
+                @discardableResult func with(m13: Double) -> Self {
                     self.m13 = m13
                     return self
                 }
 
-                @discardableResult func set(m14: Float) -> Self {
+                @discardableResult func with(m14: Float) -> Self {
                     self.m14 = m14
                     return self
                 }
 
-                @discardableResult func set(m15: Date) -> Self {
+                @discardableResult func with(m15: Date) -> Self {
                     self.m15 = m15
                     return self
                 }
 
-                @discardableResult func set(m16: UUID) -> Self {
+                @discardableResult func with(m16: UUID) -> Self {
                     self.m16 = m16
                     return self
                 }
 
-                @discardableResult func set(m17: Data) -> Self {
+                @discardableResult func with(m17: Data) -> Self {
                     self.m17 = m17
                     return self
                 }
 
-                @discardableResult func set(m18: URL) -> Self {
+                @discardableResult func with(m18: URL) -> Self {
                     self.m18 = m18
                     return self
                 }
@@ -983,7 +983,7 @@ func test_should_set_default_value_to_nil_for_implicitly_unwrapped_optional() {
                     )
                 }
 
-                @discardableResult func set(m1: String) -> Self {
+                @discardableResult func with(m1: String) -> Self {
                     self.m1 = m1
                     return self
                 }

@@ -87,7 +87,7 @@ import Testing
                     )
                 }
 
-                @discardableResult func set(m1: String) -> Self {
+                @discardableResult func with(m1: String) -> Self {
                     self.m1 = m1
                     return self
                 }
@@ -95,6 +95,64 @@ import Testing
                 func build() -> MyClass {
                     return MyClass(
                         m1: m1
+                    )
+                }
+            }
+
+            """,
+        macroSpecs: testMacros
+    )
+}
+
+@Test func test_dont_use_blank_name_from_class() {
+    assertMacroExpansion(
+        """
+        @Buildable
+        class MyClass {
+            let m1: String
+
+            init(
+                _ m1: String
+            ) {
+                self.m1 = m1
+            }
+        }
+        """,
+        expandedSource: """
+
+            class MyClass {
+                let m1: String
+
+                init(
+                    _ m1: String
+                ) {
+                    self.m1 = m1
+                }
+            }
+
+            final class MyClassBuilder {
+                private var m1: String
+
+                init(
+                    m1: String
+                ) {
+                    self.m1 = m1
+                }
+
+                convenience init(_ myClass: MyClass) {
+                    self.init(
+                        m1: myClass.m1
+                    )
+                }
+
+                @discardableResult func with(m1: String) -> Self {
+                    self.m1 = m1
+                    return self
+                }
+
+                func build() -> MyClass {
+                    return MyClass(
+                        m1
                     )
                 }
             }
@@ -185,27 +243,27 @@ import Testing
                     )
                 }
 
-                @discardableResult func set(firstName m1: String) -> Self {
+                @discardableResult func with(firstName m1: String) -> Self {
                     self.m1 = m1
                     return self
                 }
 
-                @discardableResult func set(m2: URL?) -> Self {
+                @discardableResult func with(m2: URL?) -> Self {
                     self.m2 = m2
                     return self
                 }
 
-                @discardableResult func set(m3: String?) -> Self {
+                @discardableResult func with(m3: String?) -> Self {
                     self.m3 = m3
                     return self
                 }
 
-                @discardableResult func set(m4: String!) -> Self {
+                @discardableResult func with(m4: String!) -> Self {
                     self.m4 = m4
                     return self
                 }
 
-                @discardableResult func set(m5: [String]) -> Self {
+                @discardableResult func with(m5: [String]) -> Self {
                     self.m5 = m5
                     return self
                 }
@@ -295,12 +353,12 @@ import Testing
                     )
                 }
 
-                @discardableResult func set(m1: String) -> Self {
+                @discardableResult func with(m1: String) -> Self {
                     self.m1 = m1
                     return self
                 }
 
-                @discardableResult func set(m2: String) -> Self {
+                @discardableResult func with(m2: String) -> Self {
                     self.m2 = m2
                     return self
                 }
@@ -380,7 +438,7 @@ import Testing
                     )
                 }
 
-                @discardableResult func set(m1: String!) -> Self {
+                @discardableResult func with(m1: String!) -> Self {
                     self.m1 = m1
                     return self
                 }
@@ -437,7 +495,7 @@ import Testing
                     )
                 }
 
-                @discardableResult func set(m1: String) -> Self {
+                @discardableResult func with(m1: String) -> Self {
                     self.m1 = m1
                     return self
                 }

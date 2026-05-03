@@ -98,7 +98,9 @@ private func makeConvenienceInitBody(
     let labeledExprs: [LabeledExprSyntax] = parameters.enumerated().map {
         index,
         parameter in
-        let label = parameter.alias ?? parameter.identifier
+        let label =
+            if parameter.alias?.text == "_" { parameter.identifier }
+            else { parameter.alias ?? parameter.identifier }
         var labeledExpr = LabeledExprSyntax(
             label: label,
             colon: TokenSyntax(TokenKind.colon, presence: .present),

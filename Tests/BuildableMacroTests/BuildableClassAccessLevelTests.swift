@@ -97,12 +97,12 @@ import Testing
                     )
                 }
 
-                @discardableResult fileprivate func set(m1: String) -> Self {
+                @discardableResult fileprivate func with(m1: String) -> Self {
                     self.m1 = m1
                     return self
                 }
 
-                @discardableResult fileprivate func set(m2: String) -> Self {
+                @discardableResult fileprivate func with(m2: String) -> Self {
                     self.m2 = m2
                     return self
                 }
@@ -176,12 +176,12 @@ import Testing
                         )
                     }
 
-                    @discardableResult \(accessLevel) func set(m1: String) -> Self {
+                    @discardableResult \(accessLevel) func with(m1: String) -> Self {
                         self.m1 = m1
                         return self
                     }
 
-                    @discardableResult \(accessLevel) func set(m2: String?) -> Self {
+                    @discardableResult \(accessLevel) func with(m2: String?) -> Self {
                         self.m2 = m2
                         return self
                     }
@@ -241,7 +241,7 @@ import Testing
                     )
                 }
 
-                @discardableResult func set(m1: String?) -> Self {
+                @discardableResult func with(m1: String?) -> Self {
                     self.m1 = m1
                     return self
                 }
@@ -298,7 +298,7 @@ import Testing
                     )
                 }
 
-                @discardableResult func set(m1: String) -> Self {
+                @discardableResult func with(m1: String) -> Self {
                     self.m1 = m1
                     return self
                 }
@@ -356,7 +356,7 @@ import Testing
                     )
                 }
 
-                @discardableResult fileprivate func set(m1: String) -> Self {
+                @discardableResult fileprivate func with(m1: String) -> Self {
                     self.m1 = m1
                     return self
                 }

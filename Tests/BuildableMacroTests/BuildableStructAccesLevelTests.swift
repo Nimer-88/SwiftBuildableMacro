@@ -81,12 +81,12 @@ import Testing
                     )
                 }
 
-                @discardableResult fileprivate func set(firstName: String) -> Self {
+                @discardableResult fileprivate func with(firstName: String) -> Self {
                     self.firstName = firstName
                     return self
                 }
 
-                @discardableResult fileprivate func set(lastName: String) -> Self {
+                @discardableResult fileprivate func with(lastName: String) -> Self {
                     self.lastName = lastName
                     return self
                 }
@@ -161,12 +161,12 @@ func test_should_apply_public_and_package_access_levels_with_init_for_struct() {
                         )
                     }
 
-                    @discardableResult \(accessLevel) func set(firstName: String) -> Self {
+                    @discardableResult \(accessLevel) func with(firstName: String) -> Self {
                         self.firstName = firstName
                         return self
                     }
 
-                    @discardableResult \(accessLevel) func set(lastName: String) -> Self {
+                    @discardableResult \(accessLevel) func with(lastName: String) -> Self {
                         self.lastName = lastName
                         return self
                     }
@@ -214,7 +214,7 @@ func test_should_apply_public_and_package_access_levels_with_init_for_struct() {
                     )
                 }
 
-                @discardableResult func set(name: String) -> Self {
+                @discardableResult func with(name: String) -> Self {
                     self.name = name
                     return self
                 }
@@ -263,7 +263,7 @@ func
                     )
                 }
 
-                @discardableResult func set(name: String) -> Self {
+                @discardableResult func with(name: String) -> Self {
                     self.name = name
                     return self
                 }
@@ -315,12 +315,12 @@ func
                     )
                 }
 
-                @discardableResult package func set(name: String) -> Self {
+                @discardableResult package func with(name: String) -> Self {
                     self.name = name
                     return self
                 }
 
-                @discardableResult package func set(age: Int) -> Self {
+                @discardableResult package func with(age: Int) -> Self {
                     self.age = age
                     return self
                 }

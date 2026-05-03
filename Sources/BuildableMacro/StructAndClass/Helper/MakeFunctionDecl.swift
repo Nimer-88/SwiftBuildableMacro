@@ -95,15 +95,24 @@ private func makeLabeledExprList(structMembers: [StructMember])
 {
     LabeledExprListSyntax {
         for structMember in structMembers {
-            let label = structMember.alias ?? structMember.identifier
-            LabeledExprSyntax(
-                leadingTrivia: .newline,
-                label: label,
-                colon: TokenSyntax(TokenKind.colon, presence: .present),
-                expression: ExprSyntax(
-                    stringLiteral: structMember.identifier.text
+            if structMember.alias?.text == "_" {
+                LabeledExprSyntax(
+                    leadingTrivia: .newline,
+                    expression: ExprSyntax(
+                        stringLiteral: structMember.identifier.text
+                    )
                 )
-            )
+            } else {
+                let label = structMember.alias ?? structMember.identifier
+                LabeledExprSyntax(
+                    leadingTrivia: .newline,
+                    label: label,
+                    colon: TokenSyntax(TokenKind.colon, presence: .present),
+                    expression: ExprSyntax(
+                        stringLiteral: structMember.identifier.text
+                    )
+                )
+            }
         }
     }
 }

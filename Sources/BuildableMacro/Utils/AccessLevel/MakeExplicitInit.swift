@@ -57,13 +57,13 @@ func makeExplicitInit(parameters: [InitParameter], accessLevel: AccessLevel)
                 parameters: FunctionParameterListSyntax {
                     for parameter in parameters {
                         let firstName: TokenSyntax =
-                            if let alias = parameter.alias {
+                            if let alias = parameter.alias, alias.text != "_" {
                                 alias
                             } else {
                                 parameter.identifier
                             }
                         let secondName: TokenSyntax? =
-                            if parameter.alias != nil {
+                            if parameter.alias != nil, parameter.alias?.text != "_" {
                                 parameter.identifier
                             } else {
                                 nil

@@ -46,7 +46,7 @@ import Foundation
 import SwiftSyntax
 import SwiftSyntaxBuilder
 
-func makeSetFunction(
+func makeWithFunction(
     parameter: InitParameter,
     accessLevel: AccessLevel
 ) -> FunctionDeclSyntax {
@@ -54,18 +54,18 @@ func makeSetFunction(
         modifiers: {
             return makeInnerDeclAccessModifierList(for: accessLevel)
         }(),
-        name: .keyword(.set),
+        name: .identifier("with"),
         signature: FunctionSignatureSyntax(
             parameterClause: FunctionParameterClauseSyntax(
                 parameters: FunctionParameterListSyntax {
                     let firstName: TokenSyntax =
-                        if let alias = parameter.alias {
+                        if let alias = parameter.alias, alias.text != "_" {
                             alias
                         } else {
                             parameter.identifier
                         }
                     let secondName: TokenSyntax? =
-                        if parameter.alias != nil {
+                        if parameter.alias != nil, parameter.alias?.text != "_" {
                             parameter.identifier
                         } else {
                             nil
