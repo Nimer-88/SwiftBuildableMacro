@@ -33,11 +33,11 @@
 // of training artificial intelligence technologies to generate text, including
 // without limitation, technologies that are capable of generating works in
 // the same style or genre as the Work, unless such person obtains Sebastian
-// Matusik’s specific and express permission to do so. Nor does any person
+// Matusik's specific and express permission to do so. Nor does any person
 // obtaining a copy of this software and associated documentation files have
 // the right to sublicense others to reproduce and/or otherwise use the Work in
 // any manner for purposes of training artificial intelligence technologies to
-// generate text without Sebastian Matusik’s specific and express permission.
+// generate text without Sebastian Matusik's specific and express permission.
 //
 // Created by Sebastian Matusik
 //
@@ -58,32 +58,32 @@ import Testing
 
             struct Person {
                 let name: String
-            }
 
-            final class PersonBuilder {
-                private var name: String
+                final class Builder {
+                    private var name: String
 
-                init(
-                    name: String
-                ) {
-                    self.name = name
-                }
+                    init(
+                        name: String
+                    ) {
+                        self.name = name
+                    }
 
-                convenience init(from person: Person) {
-                    self.init(
-                        name: person.name
-                    )
-                }
+                    convenience init(from person: Person) {
+                        self.init(
+                            name: person.name
+                        )
+                    }
 
-                @discardableResult func with(name: String) -> Self {
-                    self.name = name
-                    return self
-                }
+                    @discardableResult func with(name: String) -> Self {
+                        self.name = name
+                        return self
+                    }
 
-                func build() -> Person {
-                    return Person(
-                        name: name
-                    )
+                    func build() -> Person {
+                        return Person(
+                            name: name
+                        )
+                    }
                 }
             }
 
@@ -106,42 +106,42 @@ import Testing
             struct Person {
                 let name: String
                 let middleName: String
-            }
 
-            final class PersonBuilder {
-                private var name: String
-                private var middleName: String
+                final class Builder {
+                    private var name: String
+                    private var middleName: String
 
-                init(
-                    name: String,
-                    middleName: String
-                ) {
-                    self.name = name
-                    self.middleName = middleName
-                }
+                    init(
+                        name: String,
+                        middleName: String
+                    ) {
+                        self.name = name
+                        self.middleName = middleName
+                    }
 
-                convenience init(from person: Person) {
-                    self.init(
-                        name: person.name,
-                        middleName: person.middleName
-                    )
-                }
+                    convenience init(from person: Person) {
+                        self.init(
+                            name: person.name,
+                            middleName: person.middleName
+                        )
+                    }
 
-                @discardableResult func with(name: String) -> Self {
-                    self.name = name
-                    return self
-                }
+                    @discardableResult func with(name: String) -> Self {
+                        self.name = name
+                        return self
+                    }
 
-                @discardableResult func with(middleName: String) -> Self {
-                    self.middleName = middleName
-                    return self
-                }
+                    @discardableResult func with(middleName: String) -> Self {
+                        self.middleName = middleName
+                        return self
+                    }
 
-                func build() -> Person {
-                    return Person(
-                        name: name,
-                        middleName: middleName
-                    )
+                    func build() -> Person {
+                        return Person(
+                            name: name,
+                            middleName: middleName
+                        )
+                    }
                 }
             }
 
@@ -164,46 +164,46 @@ import Testing
             struct MyObject {
                 let m1: String?
                 let m2: [Int]?
-            }
 
-            final class MyObjectBuilder {
-                private var m1: String?
-                private var m2: [Int]?
+                final class Builder {
+                    private var m1: String?
+                    private var m2: [Int]?
 
-                init(
-                    m1: String? = nil,
-                    m2: [Int]? = nil
-                ) {
-                    self.m1 = m1
-                    self.m2 = m2
-                }
-
-                convenience init(from myObject: MyObject?) {
-                    if let myObject {
-                        self.init(
-                            m1: myObject.m1,
-                            m2: myObject.m2
-                        )
-                    } else {
-                        self.init()
+                    init(
+                        m1: String? = nil,
+                        m2: [Int]? = nil
+                    ) {
+                        self.m1 = m1
+                        self.m2 = m2
                     }
-                }
 
-                @discardableResult func with(m1: String?) -> Self {
-                    self.m1 = m1
-                    return self
-                }
+                    convenience init(from myObject: MyObject?) {
+                        if let myObject {
+                            self.init(
+                                m1: myObject.m1,
+                                m2: myObject.m2
+                            )
+                        } else {
+                            self.init()
+                        }
+                    }
 
-                @discardableResult func with(m2: [Int]?) -> Self {
-                    self.m2 = m2
-                    return self
-                }
+                    @discardableResult func with(m1: String?) -> Self {
+                        self.m1 = m1
+                        return self
+                    }
 
-                func build() -> MyObject {
-                    return MyObject(
-                        m1: m1,
-                        m2: m2
-                    )
+                    @discardableResult func with(m2: [Int]?) -> Self {
+                        self.m2 = m2
+                        return self
+                    }
+
+                    func build() -> MyObject {
+                        return MyObject(
+                            m1: m1,
+                            m2: m2
+                        )
+                    }
                 }
             }
 
@@ -231,32 +231,32 @@ import Testing
             }
             struct MyObject {
                 let m1: MyOtherObject
-            }
 
-            final class MyObjectBuilder {
-                private var m1: MyOtherObject
+                final class Builder {
+                    private var m1: MyOtherObject
 
-                init(
-                    m1: MyOtherObject
-                ) {
-                    self.m1 = m1
-                }
+                    init(
+                        m1: MyOtherObject
+                    ) {
+                        self.m1 = m1
+                    }
 
-                convenience init(from myObject: MyObject) {
-                    self.init(
-                        m1: myObject.m1
-                    )
-                }
+                    convenience init(from myObject: MyObject) {
+                        self.init(
+                            m1: myObject.m1
+                        )
+                    }
 
-                @discardableResult func with(m1: MyOtherObject) -> Self {
-                    self.m1 = m1
-                    return self
-                }
+                    @discardableResult func with(m1: MyOtherObject) -> Self {
+                        self.m1 = m1
+                        return self
+                    }
 
-                func build() -> MyObject {
-                    return MyObject(
-                        m1: m1
-                    )
+                    func build() -> MyObject {
+                        return MyObject(
+                            m1: m1
+                        )
+                    }
                 }
             }
 
@@ -281,52 +281,52 @@ import Testing
                 let m1: [String]
                 let m2: [Int]
                 let m3: [String: String]
-            }
 
-            final class MyObjectBuilder {
-                private var m1: [String]
-                private var m2: [Int]
-                private var m3: [String: String]
+                final class Builder {
+                    private var m1: [String]
+                    private var m2: [Int]
+                    private var m3: [String: String]
 
-                init(
-                    m1: [String],
-                    m2: [Int],
-                    m3: [String: String]
-                ) {
-                    self.m1 = m1
-                    self.m2 = m2
-                    self.m3 = m3
-                }
+                    init(
+                        m1: [String],
+                        m2: [Int],
+                        m3: [String: String]
+                    ) {
+                        self.m1 = m1
+                        self.m2 = m2
+                        self.m3 = m3
+                    }
 
-                convenience init(from myObject: MyObject) {
-                    self.init(
-                        m1: myObject.m1,
-                        m2: myObject.m2,
-                        m3: myObject.m3
-                    )
-                }
+                    convenience init(from myObject: MyObject) {
+                        self.init(
+                            m1: myObject.m1,
+                            m2: myObject.m2,
+                            m3: myObject.m3
+                        )
+                    }
 
-                @discardableResult func with(m1: [String]) -> Self {
-                    self.m1 = m1
-                    return self
-                }
+                    @discardableResult func with(m1: [String]) -> Self {
+                        self.m1 = m1
+                        return self
+                    }
 
-                @discardableResult func with(m2: [Int]) -> Self {
-                    self.m2 = m2
-                    return self
-                }
+                    @discardableResult func with(m2: [Int]) -> Self {
+                        self.m2 = m2
+                        return self
+                    }
 
-                @discardableResult func with(m3: [String: String]) -> Self {
-                    self.m3 = m3
-                    return self
-                }
+                    @discardableResult func with(m3: [String: String]) -> Self {
+                        self.m3 = m3
+                        return self
+                    }
 
-                func build() -> MyObject {
-                    return MyObject(
-                        m1: m1,
-                        m2: m2,
-                        m3: m3
-                    )
+                    func build() -> MyObject {
+                        return MyObject(
+                            m1: m1,
+                            m2: m2,
+                            m3: m3
+                        )
+                    }
                 }
             }
 
@@ -348,32 +348,32 @@ func test_should_set_default_value_to_nil_for_implicitly_unwrapped_optional() {
 
             struct MyObject {
                 let m1: String!
-            }
 
-            final class MyObjectBuilder {
-                private var m1: String!
+                final class Builder {
+                    private var m1: String!
 
-                init(
-                    m1: String!
-                ) {
-                    self.m1 = m1
-                }
+                    init(
+                        m1: String!
+                    ) {
+                        self.m1 = m1
+                    }
 
-                convenience init(from myObject: MyObject) {
-                    self.init(
-                        m1: myObject.m1
-                    )
-                }
+                    convenience init(from myObject: MyObject) {
+                        self.init(
+                            m1: myObject.m1
+                        )
+                    }
 
-                @discardableResult func with(m1: String!) -> Self {
-                    self.m1 = m1
-                    return self
-                }
+                    @discardableResult func with(m1: String!) -> Self {
+                        self.m1 = m1
+                        return self
+                    }
 
-                func build() -> MyObject {
-                    return MyObject(
-                        m1: m1
-                    )
+                    func build() -> MyObject {
+                        return MyObject(
+                            m1: m1
+                        )
+                    }
                 }
             }
 
@@ -398,11 +398,11 @@ func test_should_set_default_value_to_nil_for_implicitly_unwrapped_optional() {
                 var unwantedComputedVariable: String {
                     "myText"
                 }
-            }
 
-            final class MyObjectBuilder {
-                func build() -> MyObject {
-                    return MyObject()
+                final class Builder {
+                    func build() -> MyObject {
+                        return MyObject()
+                    }
                 }
             }
 
@@ -425,11 +425,11 @@ func test_should_set_default_value_to_nil_for_implicitly_unwrapped_optional() {
             struct MyObject {
                 static let unwantedStaticVariable1: String = ""
                 static var unwantedStaticVariable2: String = ""
-            }
 
-            final class MyObjectBuilder {
-                func build() -> MyObject {
-                    return MyObject()
+                final class Builder {
+                    func build() -> MyObject {
+                        return MyObject()
+                    }
                 }
             }
 
@@ -476,56 +476,56 @@ func test_should_set_default_value_to_nil_for_implicitly_unwrapped_optional() {
                     self.m3 = m3
                     self.m4 = m4
                 }
-            }
 
-            final class MyObjectBuilder {
-                private var m1: String?
-                private var m3: String?
-                private var m4: String?
+                final class Builder {
+                    private var m1: String?
+                    private var m3: String?
+                    private var m4: String?
 
-                init(
-                    m1: String? = nil,
-                    m3: String? = nil,
-                    m4: String? = nil
-                ) {
-                    self.m1 = m1
-                    self.m3 = m3
-                    self.m4 = m4
-                }
-
-                convenience init(from myObject: MyObject?) {
-                    if let myObject {
-                        self.init(
-                            m1: myObject.m1,
-                            m3: myObject.m3,
-                            m4: myObject.m4
-                        )
-                    } else {
-                        self.init()
+                    init(
+                        m1: String? = nil,
+                        m3: String? = nil,
+                        m4: String? = nil
+                    ) {
+                        self.m1 = m1
+                        self.m3 = m3
+                        self.m4 = m4
                     }
-                }
 
-                @discardableResult func with(m1: String?) -> Self {
-                    self.m1 = m1
-                    return self
-                }
+                    convenience init(from myObject: MyObject?) {
+                        if let myObject {
+                            self.init(
+                                m1: myObject.m1,
+                                m3: myObject.m3,
+                                m4: myObject.m4
+                            )
+                        } else {
+                            self.init()
+                        }
+                    }
 
-                @discardableResult func with(m3: String?) -> Self {
-                    self.m3 = m3
-                    return self
-                }
+                    @discardableResult func with(m1: String?) -> Self {
+                        self.m1 = m1
+                        return self
+                    }
 
-                @discardableResult func with(m4: String?) -> Self {
-                    self.m4 = m4
-                    return self
-                }
+                    @discardableResult func with(m3: String?) -> Self {
+                        self.m3 = m3
+                        return self
+                    }
 
-                func build() -> MyObject {
-                    return MyObject(
-                        m1: m1,
-                        m3: m3,
-                        m4: m4
-                    )
+                    @discardableResult func with(m4: String?) -> Self {
+                        self.m4 = m4
+                        return self
+                    }
+
+                    func build() -> MyObject {
+                        return MyObject(
+                            m1: m1,
+                            m3: m3,
+                            m4: m4
+                        )
+                    }
                 }
             }
 
@@ -548,36 +548,36 @@ func test_should_set_default_value_to_nil_for_implicitly_unwrapped_optional() {
             struct MyObject {
                 let m1: String?
                 let myConstant: String = ""
-            }
 
-            final class MyObjectBuilder {
-                private var m1: String?
+                final class Builder {
+                    private var m1: String?
 
-                init(
-                    m1: String? = nil
-                ) {
-                    self.m1 = m1
-                }
-
-                convenience init(from myObject: MyObject?) {
-                    if let myObject {
-                        self.init(
-                            m1: myObject.m1
-                        )
-                    } else {
-                        self.init()
+                    init(
+                        m1: String? = nil
+                    ) {
+                        self.m1 = m1
                     }
-                }
 
-                @discardableResult func with(m1: String?) -> Self {
-                    self.m1 = m1
-                    return self
-                }
+                    convenience init(from myObject: MyObject?) {
+                        if let myObject {
+                            self.init(
+                                m1: myObject.m1
+                            )
+                        } else {
+                            self.init()
+                        }
+                    }
 
-                func build() -> MyObject {
-                    return MyObject(
-                        m1: m1
-                    )
+                    @discardableResult func with(m1: String?) -> Self {
+                        self.m1 = m1
+                        return self
+                    }
+
+                    func build() -> MyObject {
+                        return MyObject(
+                            m1: m1
+                        )
+                    }
                 }
             }
 
@@ -626,32 +626,32 @@ func test_should_set_default_value_to_nil_for_implicitly_unwrapped_optional() {
                 ) {
                     self.m2 = m2
                 }
-            }
 
-            final class MyObjectBuilder {
-                private var m2: String
+                final class Builder {
+                    private var m2: String
 
-                init(
-                    m2: String
-                ) {
-                    self.m2 = m2
-                }
+                    init(
+                        m2: String
+                    ) {
+                        self.m2 = m2
+                    }
 
-                convenience init(from myObject: MyObject) {
-                    self.init(
-                        m2: myObject.m2
-                    )
-                }
+                    convenience init(from myObject: MyObject) {
+                        self.init(
+                            m2: myObject.m2
+                        )
+                    }
 
-                @discardableResult func with(m2: String) -> Self {
-                    self.m2 = m2
-                    return self
-                }
+                    @discardableResult func with(m2: String) -> Self {
+                        self.m2 = m2
+                        return self
+                    }
 
-                func build() -> MyObject {
-                    return MyObject(
-                        m2: m2
-                    )
+                    func build() -> MyObject {
+                        return MyObject(
+                            m2: m2
+                        )
+                    }
                 }
             }
 
@@ -672,32 +672,32 @@ func test_should_set_default_value_to_nil_for_implicitly_unwrapped_optional() {
 
             struct MyObject: Sendable {
                 let m1: String
-            }
 
-            final class MyObjectBuilder {
-                private var m1: String
+                final class Builder {
+                    private var m1: String
 
-                init(
-                    m1: String
-                ) {
-                    self.m1 = m1
-                }
+                    init(
+                        m1: String
+                    ) {
+                        self.m1 = m1
+                    }
 
-                convenience init(from myObject: MyObject) {
-                    self.init(
-                        m1: myObject.m1
-                    )
-                }
+                    convenience init(from myObject: MyObject) {
+                        self.init(
+                            m1: myObject.m1
+                        )
+                    }
 
-                @discardableResult func with(m1: String) -> Self {
-                    self.m1 = m1
-                    return self
-                }
+                    @discardableResult func with(m1: String) -> Self {
+                        self.m1 = m1
+                        return self
+                    }
 
-                func build() -> MyObject {
-                    return MyObject(
-                        m1: m1
-                    )
+                    func build() -> MyObject {
+                        return MyObject(
+                            m1: m1
+                        )
+                    }
                 }
             }
 
@@ -752,202 +752,202 @@ func test_should_set_default_value_to_nil_for_implicitly_unwrapped_optional() {
                 let m16: UUID
                 let m17: Data
                 let m18: URL
-            }
 
-            final class MyObjectBuilder {
-                private var m01: String
-                private var m02: Int
-                private var m03: Int8
-                private var m04: Int16
-                private var m05: Int32
-                private var m06: Int64
-                private var m07: UInt
-                private var m08: UInt8
-                private var m09: UInt16
-                private var m10: UInt32
-                private var m11: UInt64
-                private var m12: Bool
-                private var m13: Double
-                private var m14: Float
-                private var m15: Date
-                private var m16: UUID
-                private var m17: Data
-                private var m18: URL
+                final class Builder {
+                    private var m01: String
+                    private var m02: Int
+                    private var m03: Int8
+                    private var m04: Int16
+                    private var m05: Int32
+                    private var m06: Int64
+                    private var m07: UInt
+                    private var m08: UInt8
+                    private var m09: UInt16
+                    private var m10: UInt32
+                    private var m11: UInt64
+                    private var m12: Bool
+                    private var m13: Double
+                    private var m14: Float
+                    private var m15: Date
+                    private var m16: UUID
+                    private var m17: Data
+                    private var m18: URL
 
-                init(
-                    m01: String,
-                    m02: Int,
-                    m03: Int8,
-                    m04: Int16,
-                    m05: Int32,
-                    m06: Int64,
-                    m07: UInt,
-                    m08: UInt8,
-                    m09: UInt16,
-                    m10: UInt32,
-                    m11: UInt64,
-                    m12: Bool,
-                    m13: Double,
-                    m14: Float,
-                    m15: Date,
-                    m16: UUID,
-                    m17: Data,
-                    m18: URL
-                ) {
-                    self.m01 = m01
-                    self.m02 = m02
-                    self.m03 = m03
-                    self.m04 = m04
-                    self.m05 = m05
-                    self.m06 = m06
-                    self.m07 = m07
-                    self.m08 = m08
-                    self.m09 = m09
-                    self.m10 = m10
-                    self.m11 = m11
-                    self.m12 = m12
-                    self.m13 = m13
-                    self.m14 = m14
-                    self.m15 = m15
-                    self.m16 = m16
-                    self.m17 = m17
-                    self.m18 = m18
-                }
+                    init(
+                        m01: String,
+                        m02: Int,
+                        m03: Int8,
+                        m04: Int16,
+                        m05: Int32,
+                        m06: Int64,
+                        m07: UInt,
+                        m08: UInt8,
+                        m09: UInt16,
+                        m10: UInt32,
+                        m11: UInt64,
+                        m12: Bool,
+                        m13: Double,
+                        m14: Float,
+                        m15: Date,
+                        m16: UUID,
+                        m17: Data,
+                        m18: URL
+                    ) {
+                        self.m01 = m01
+                        self.m02 = m02
+                        self.m03 = m03
+                        self.m04 = m04
+                        self.m05 = m05
+                        self.m06 = m06
+                        self.m07 = m07
+                        self.m08 = m08
+                        self.m09 = m09
+                        self.m10 = m10
+                        self.m11 = m11
+                        self.m12 = m12
+                        self.m13 = m13
+                        self.m14 = m14
+                        self.m15 = m15
+                        self.m16 = m16
+                        self.m17 = m17
+                        self.m18 = m18
+                    }
 
-                convenience init(from myObject: MyObject) {
-                    self.init(
-                        m01: myObject.m01,
-                        m02: myObject.m02,
-                        m03: myObject.m03,
-                        m04: myObject.m04,
-                        m05: myObject.m05,
-                        m06: myObject.m06,
-                        m07: myObject.m07,
-                        m08: myObject.m08,
-                        m09: myObject.m09,
-                        m10: myObject.m10,
-                        m11: myObject.m11,
-                        m12: myObject.m12,
-                        m13: myObject.m13,
-                        m14: myObject.m14,
-                        m15: myObject.m15,
-                        m16: myObject.m16,
-                        m17: myObject.m17,
-                        m18: myObject.m18
-                    )
-                }
+                    convenience init(from myObject: MyObject) {
+                        self.init(
+                            m01: myObject.m01,
+                            m02: myObject.m02,
+                            m03: myObject.m03,
+                            m04: myObject.m04,
+                            m05: myObject.m05,
+                            m06: myObject.m06,
+                            m07: myObject.m07,
+                            m08: myObject.m08,
+                            m09: myObject.m09,
+                            m10: myObject.m10,
+                            m11: myObject.m11,
+                            m12: myObject.m12,
+                            m13: myObject.m13,
+                            m14: myObject.m14,
+                            m15: myObject.m15,
+                            m16: myObject.m16,
+                            m17: myObject.m17,
+                            m18: myObject.m18
+                        )
+                    }
 
-                @discardableResult func with(m01: String) -> Self {
-                    self.m01 = m01
-                    return self
-                }
+                    @discardableResult func with(m01: String) -> Self {
+                        self.m01 = m01
+                        return self
+                    }
 
-                @discardableResult func with(m02: Int) -> Self {
-                    self.m02 = m02
-                    return self
-                }
+                    @discardableResult func with(m02: Int) -> Self {
+                        self.m02 = m02
+                        return self
+                    }
 
-                @discardableResult func with(m03: Int8) -> Self {
-                    self.m03 = m03
-                    return self
-                }
+                    @discardableResult func with(m03: Int8) -> Self {
+                        self.m03 = m03
+                        return self
+                    }
 
-                @discardableResult func with(m04: Int16) -> Self {
-                    self.m04 = m04
-                    return self
-                }
+                    @discardableResult func with(m04: Int16) -> Self {
+                        self.m04 = m04
+                        return self
+                    }
 
-                @discardableResult func with(m05: Int32) -> Self {
-                    self.m05 = m05
-                    return self
-                }
+                    @discardableResult func with(m05: Int32) -> Self {
+                        self.m05 = m05
+                        return self
+                    }
 
-                @discardableResult func with(m06: Int64) -> Self {
-                    self.m06 = m06
-                    return self
-                }
+                    @discardableResult func with(m06: Int64) -> Self {
+                        self.m06 = m06
+                        return self
+                    }
 
-                @discardableResult func with(m07: UInt) -> Self {
-                    self.m07 = m07
-                    return self
-                }
+                    @discardableResult func with(m07: UInt) -> Self {
+                        self.m07 = m07
+                        return self
+                    }
 
-                @discardableResult func with(m08: UInt8) -> Self {
-                    self.m08 = m08
-                    return self
-                }
+                    @discardableResult func with(m08: UInt8) -> Self {
+                        self.m08 = m08
+                        return self
+                    }
 
-                @discardableResult func with(m09: UInt16) -> Self {
-                    self.m09 = m09
-                    return self
-                }
+                    @discardableResult func with(m09: UInt16) -> Self {
+                        self.m09 = m09
+                        return self
+                    }
 
-                @discardableResult func with(m10: UInt32) -> Self {
-                    self.m10 = m10
-                    return self
-                }
+                    @discardableResult func with(m10: UInt32) -> Self {
+                        self.m10 = m10
+                        return self
+                    }
 
-                @discardableResult func with(m11: UInt64) -> Self {
-                    self.m11 = m11
-                    return self
-                }
+                    @discardableResult func with(m11: UInt64) -> Self {
+                        self.m11 = m11
+                        return self
+                    }
 
-                @discardableResult func with(m12: Bool) -> Self {
-                    self.m12 = m12
-                    return self
-                }
+                    @discardableResult func with(m12: Bool) -> Self {
+                        self.m12 = m12
+                        return self
+                    }
 
-                @discardableResult func with(m13: Double) -> Self {
-                    self.m13 = m13
-                    return self
-                }
+                    @discardableResult func with(m13: Double) -> Self {
+                        self.m13 = m13
+                        return self
+                    }
 
-                @discardableResult func with(m14: Float) -> Self {
-                    self.m14 = m14
-                    return self
-                }
+                    @discardableResult func with(m14: Float) -> Self {
+                        self.m14 = m14
+                        return self
+                    }
 
-                @discardableResult func with(m15: Date) -> Self {
-                    self.m15 = m15
-                    return self
-                }
+                    @discardableResult func with(m15: Date) -> Self {
+                        self.m15 = m15
+                        return self
+                    }
 
-                @discardableResult func with(m16: UUID) -> Self {
-                    self.m16 = m16
-                    return self
-                }
+                    @discardableResult func with(m16: UUID) -> Self {
+                        self.m16 = m16
+                        return self
+                    }
 
-                @discardableResult func with(m17: Data) -> Self {
-                    self.m17 = m17
-                    return self
-                }
+                    @discardableResult func with(m17: Data) -> Self {
+                        self.m17 = m17
+                        return self
+                    }
 
-                @discardableResult func with(m18: URL) -> Self {
-                    self.m18 = m18
-                    return self
-                }
+                    @discardableResult func with(m18: URL) -> Self {
+                        self.m18 = m18
+                        return self
+                    }
 
-                func build() -> MyObject {
-                    return MyObject(
-                        m01: m01,
-                        m02: m02,
-                        m03: m03,
-                        m04: m04,
-                        m05: m05,
-                        m06: m06,
-                        m07: m07,
-                        m08: m08,
-                        m09: m09,
-                        m10: m10,
-                        m11: m11,
-                        m12: m12,
-                        m13: m13,
-                        m14: m14,
-                        m15: m15,
-                        m16: m16,
-                        m17: m17,
-                        m18: m18
-                    )
+                    func build() -> MyObject {
+                        return MyObject(
+                            m01: m01,
+                            m02: m02,
+                            m03: m03,
+                            m04: m04,
+                            m05: m05,
+                            m06: m06,
+                            m07: m07,
+                            m08: m08,
+                            m09: m09,
+                            m10: m10,
+                            m11: m11,
+                            m12: m12,
+                            m13: m13,
+                            m14: m14,
+                            m15: m15,
+                            m16: m16,
+                            m17: m17,
+                            m18: m18
+                        )
+                    }
                 }
             }
 
@@ -978,36 +978,36 @@ func test_should_set_default_value_to_nil_for_implicitly_unwrapped_optional() {
                 init(m1: String = "") {
                     self.m1 = m1
                 }
-            }
 
-            final class MyClassBuilder {
-                private var m1: String
+                final class Builder {
+                    private var m1: String
 
-                init(
-                    m1: String = ""
-                ) {
-                    self.m1 = m1
-                }
-
-                convenience init(from myClass: MyClass?) {
-                    if let myClass {
-                        self.init(
-                            m1: myClass.m1
-                        )
-                    } else {
-                        self.init()
+                    init(
+                        m1: String = ""
+                    ) {
+                        self.m1 = m1
                     }
-                }
 
-                @discardableResult func with(m1: String) -> Self {
-                    self.m1 = m1
-                    return self
-                }
+                    convenience init(from myClass: MyClass?) {
+                        if let myClass {
+                            self.init(
+                                m1: myClass.m1
+                            )
+                        } else {
+                            self.init()
+                        }
+                    }
 
-                func build() -> MyClass {
-                    return MyClass(
-                        m1: m1
-                    )
+                    @discardableResult func with(m1: String) -> Self {
+                        self.m1 = m1
+                        return self
+                    }
+
+                    func build() -> MyClass {
+                        return MyClass(
+                            m1: m1
+                        )
+                    }
                 }
             }
 

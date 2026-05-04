@@ -33,11 +33,11 @@
 // of training artificial intelligence technologies to generate text, including
 // without limitation, technologies that are capable of generating works in
 // the same style or genre as the Work, unless such person obtains Sebastian
-// Matusik’s specific and express permission to do so. Nor does any person
+// Matusik's specific and express permission to do so. Nor does any person
 // obtaining a copy of this software and associated documentation files have
 // the right to sublicense others to reproduce and/or otherwise use the Work in
 // any manner for purposes of training artificial intelligence technologies to
-// generate text without Sebastian Matusik’s specific and express permission.
+// generate text without Sebastian Matusik's specific and express permission.
 //
 // Created by Sebastian Matusik
 //
@@ -76,42 +76,42 @@ import Testing
                     self.m1 = m1
                     self.m2 = m2
                 }
-            }
 
-            fileprivate final class MyClassBuilder {
-                private var m1: String
-                private var m2: String
+                fileprivate final class Builder {
+                    private var m1: String
+                    private var m2: String
 
-                fileprivate init(
-                    m1: String,
-                    m2: String
-                ) {
-                    self.m1 = m1
-                    self.m2 = m2
-                }
+                    fileprivate init(
+                        m1: String,
+                        m2: String
+                    ) {
+                        self.m1 = m1
+                        self.m2 = m2
+                    }
 
-                fileprivate convenience init(from myClass: MyClass) {
-                    self.init(
-                        m1: myClass.m1,
-                        m2: myClass.m2
-                    )
-                }
+                    fileprivate convenience init(from myClass: MyClass) {
+                        self.init(
+                            m1: myClass.m1,
+                            m2: myClass.m2
+                        )
+                    }
 
-                @discardableResult fileprivate func with(m1: String) -> Self {
-                    self.m1 = m1
-                    return self
-                }
+                    @discardableResult fileprivate func with(m1: String) -> Self {
+                        self.m1 = m1
+                        return self
+                    }
 
-                @discardableResult fileprivate func with(m2: String) -> Self {
-                    self.m2 = m2
-                    return self
-                }
+                    @discardableResult fileprivate func with(m2: String) -> Self {
+                        self.m2 = m2
+                        return self
+                    }
 
-                fileprivate func build() -> MyClass {
-                    return MyClass(
-                        m1: m1,
-                        m2: m2
-                    )
+                    fileprivate func build() -> MyClass {
+                        return MyClass(
+                            m1: m1,
+                            m2: m2
+                        )
+                    }
                 }
             }
 
@@ -155,42 +155,42 @@ import Testing
                         self.m1 = m1
                         self.m2 = m2
                     }
-                }
 
-                \(accessLevel) final class MyClassBuilder {
-                    private var m1: String
-                    private var m2: String?
+                    \(accessLevel) final class Builder {
+                        private var m1: String
+                        private var m2: String?
 
-                    \(accessLevel) init(
-                        m1: String,
-                        m2: String? = nil
-                    ) {
-                        self.m1 = m1
-                        self.m2 = m2
-                    }
+                        \(accessLevel) init(
+                            m1: String,
+                            m2: String? = nil
+                        ) {
+                            self.m1 = m1
+                            self.m2 = m2
+                        }
 
-                    \(accessLevel) convenience init(from myClass: MyClass) {
-                        self.init(
-                            m1: myClass.m1,
-                            m2: myClass.m2
-                        )
-                    }
+                        \(accessLevel) convenience init(from myClass: MyClass) {
+                            self.init(
+                                m1: myClass.m1,
+                                m2: myClass.m2
+                            )
+                        }
 
-                    @discardableResult \(accessLevel) func with(m1: String) -> Self {
-                        self.m1 = m1
-                        return self
-                    }
+                        @discardableResult \(accessLevel) func with(m1: String) -> Self {
+                            self.m1 = m1
+                            return self
+                        }
 
-                    @discardableResult \(accessLevel) func with(m2: String?) -> Self {
-                        self.m2 = m2
-                        return self
-                    }
+                        @discardableResult \(accessLevel) func with(m2: String?) -> Self {
+                            self.m2 = m2
+                            return self
+                        }
 
-                    \(accessLevel) func build() -> MyClass {
-                        return MyClass(
-                            m1: m1,
-                            m2: m2
-                        )
+                        \(accessLevel) func build() -> MyClass {
+                            return MyClass(
+                                m1: m1,
+                                m2: m2
+                            )
+                        }
                     }
                 }
 
@@ -224,36 +224,36 @@ import Testing
                 ) {
                     self.m1 = m1
                 }
-            }
 
-            final class MyClassBuilder {
-                private var m1: String?
+                final class Builder {
+                    private var m1: String?
 
-                init(
-                    m1: String? = nil
-                ) {
-                    self.m1 = m1
-                }
-
-                convenience init(from myClass: MyClass?) {
-                    if let myClass {
-                        self.init(
-                            m1: myClass.m1
-                        )
-                    } else {
-                        self.init()
+                    init(
+                        m1: String? = nil
+                    ) {
+                        self.m1 = m1
                     }
-                }
 
-                @discardableResult func with(m1: String?) -> Self {
-                    self.m1 = m1
-                    return self
-                }
+                    convenience init(from myClass: MyClass?) {
+                        if let myClass {
+                            self.init(
+                                m1: myClass.m1
+                            )
+                        } else {
+                            self.init()
+                        }
+                    }
 
-                func build() -> MyClass {
-                    return MyClass(
-                        m1: m1
-                    )
+                    @discardableResult func with(m1: String?) -> Self {
+                        self.m1 = m1
+                        return self
+                    }
+
+                    func build() -> MyClass {
+                        return MyClass(
+                            m1: m1
+                        )
+                    }
                 }
             }
             """,
@@ -285,32 +285,32 @@ import Testing
                 ) {
                     self.m1 = m1
                 }
-            }
 
-            private final class MyClassBuilder {
-                private var m1: String
+                final class Builder {
+                    private var m1: String
 
-                init(
-                    m1: String
-                ) {
-                    self.m1 = m1
-                }
+                    init(
+                        m1: String
+                    ) {
+                        self.m1 = m1
+                    }
 
-                convenience init(from myClass: MyClass) {
-                    self.init(
-                        m1: myClass.m1
-                    )
-                }
+                    convenience init(from myClass: MyClass) {
+                        self.init(
+                            m1: myClass.m1
+                        )
+                    }
 
-                @discardableResult func with(m1: String) -> Self {
-                    self.m1 = m1
-                    return self
-                }
+                    @discardableResult func with(m1: String) -> Self {
+                        self.m1 = m1
+                        return self
+                    }
 
-                func build() -> MyClass {
-                    return MyClass(
-                        m1: m1
-                    )
+                    func build() -> MyClass {
+                        return MyClass(
+                            m1: m1
+                        )
+                    }
                 }
             }
 
@@ -343,32 +343,32 @@ import Testing
                 ) {
                     self.m1 = m1
                 }
-            }
 
-            fileprivate final class MyClassBuilder {
-                private var m1: String
+                fileprivate final class Builder {
+                    private var m1: String
 
-                fileprivate init(
-                    m1: String
-                ) {
-                    self.m1 = m1
-                }
+                    fileprivate init(
+                        m1: String
+                    ) {
+                        self.m1 = m1
+                    }
 
-                fileprivate convenience init(from myClass: MyClass) {
-                    self.init(
-                        m1: myClass.m1
-                    )
-                }
+                    fileprivate convenience init(from myClass: MyClass) {
+                        self.init(
+                            m1: myClass.m1
+                        )
+                    }
 
-                @discardableResult fileprivate func with(m1: String) -> Self {
-                    self.m1 = m1
-                    return self
-                }
+                    @discardableResult fileprivate func with(m1: String) -> Self {
+                        self.m1 = m1
+                        return self
+                    }
 
-                fileprivate func build() -> MyClass {
-                    return MyClass(
-                        m1: m1
-                    )
+                    fileprivate func build() -> MyClass {
+                        return MyClass(
+                            m1: m1
+                        )
+                    }
                 }
             }
 

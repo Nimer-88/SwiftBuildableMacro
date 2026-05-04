@@ -49,11 +49,11 @@ func makeBuilderClassDecl(
     structName: TokenSyntax,
     structMembers: [StructMember],
     accessLevel: AccessLevel,
-    hasCustomInitializer: Bool,
 ) -> ClassDeclSyntax {
     ClassDeclSyntax(
         modifiers: makeBuilderClassOuterDeclModifierList(for: accessLevel),
-        name: getBuilderName(from: structName),
+        name: TokenSyntax.identifier("Builder")
+            .with(\.trailingTrivia, .spaces(1)),
     ) {
         MemberBlockItemListSyntax {
             for structMember in structMembers {
@@ -79,8 +79,7 @@ func makeBuilderClassDecl(
                     decl: makeConvenienceInit(
                         parameters: structMembers.map(\.asInitParameter),
                         originalTypeName: structName,
-                        accessLevel: accessLevel,
-                        hasCustomInitializer: hasCustomInitializer,
+                        accessLevel: accessLevel
                     )
                 )
 

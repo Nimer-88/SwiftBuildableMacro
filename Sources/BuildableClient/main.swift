@@ -62,10 +62,10 @@ package class AppState {
     }
 }
 
-let bob = PersonBuilder(name: "Bob", age: 28).build()
-let max = PersonBuilder(name: "Max", age: 21).build()
-let modifiedBob = PersonBuilder(from: bob).with(age: 29).build()
-let appState = AppStateBuilder(people: [
+let bob = Person.Builder(name: "Bob", age: 28).build()
+let max = Person.Builder(name: "Max", age: 21).build()
+let modifiedBob = Person.Builder(from: bob).with(age: 29).build()
+let appState = AppState.Builder(people: [
     modifiedBob, max,
 ])
 .build()

@@ -33,11 +33,11 @@
 // of training artificial intelligence technologies to generate text, including
 // without limitation, technologies that are capable of generating works in
 // the same style or genre as the Work, unless such person obtains Sebastian
-// Matusik’s specific and express permission to do so. Nor does any person
+// Matusik's specific and express permission to do so. Nor does any person
 // obtaining a copy of this software and associated documentation files have
 // the right to sublicense others to reproduce and/or otherwise use the Work in
 // any manner for purposes of training artificial intelligence technologies to
-// generate text without Sebastian Matusik’s specific and express permission.
+// generate text without Sebastian Matusik's specific and express permission.
 //
 // Created by Sebastian Matusik
 //
@@ -60,42 +60,42 @@ import Testing
             fileprivate struct Person {
                 let firstName: String
                 let lastName: String
-            }
 
-            fileprivate final class PersonBuilder {
-                private var firstName: String
-                private var lastName: String
+                fileprivate final class Builder {
+                    private var firstName: String
+                    private var lastName: String
 
-                fileprivate init(
-                    firstName: String,
-                    lastName: String
-                ) {
-                    self.firstName = firstName
-                    self.lastName = lastName
-                }
+                    fileprivate init(
+                        firstName: String,
+                        lastName: String
+                    ) {
+                        self.firstName = firstName
+                        self.lastName = lastName
+                    }
 
-                fileprivate convenience init(from person: Person) {
-                    self.init(
-                        firstName: person.firstName,
-                        lastName: person.lastName
-                    )
-                }
+                    fileprivate convenience init(from person: Person) {
+                        self.init(
+                            firstName: person.firstName,
+                            lastName: person.lastName
+                        )
+                    }
 
-                @discardableResult fileprivate func with(firstName: String) -> Self {
-                    self.firstName = firstName
-                    return self
-                }
+                    @discardableResult fileprivate func with(firstName: String) -> Self {
+                        self.firstName = firstName
+                        return self
+                    }
 
-                @discardableResult fileprivate func with(lastName: String) -> Self {
-                    self.lastName = lastName
-                    return self
-                }
+                    @discardableResult fileprivate func with(lastName: String) -> Self {
+                        self.lastName = lastName
+                        return self
+                    }
 
-                fileprivate func build() -> Person {
-                    return Person(
-                        firstName: firstName,
-                        lastName: lastName
-                    )
+                    fileprivate func build() -> Person {
+                        return Person(
+                            firstName: firstName,
+                            lastName: lastName
+                        )
+                    }
                 }
             }
 
@@ -140,46 +140,46 @@ func test_should_apply_public_and_package_access_levels_with_init_for_struct() {
                         self.firstName = firstName
                         self.lastName = lastName
                     }
-                }
 
-                \(accessLevel) final class PersonBuilder {
-                    private var firstName: String
-                    private var lastName: String
+                    \(accessLevel) final class Builder {
+                        private var firstName: String
+                        private var lastName: String
 
-                    \(accessLevel) init(
-                        firstName: String = "",
-                        lastName: String = ""
-                    ) {
-                        self.firstName = firstName
-                        self.lastName = lastName
-                    }
-
-                    \(accessLevel) convenience init(from person: Person?) {
-                        if let person {
-                            self.init(
-                                firstName: person.firstName,
-                                lastName: person.lastName
-                            )
-                        } else {
-                            self.init()
+                        \(accessLevel) init(
+                            firstName: String = "",
+                            lastName: String = ""
+                        ) {
+                            self.firstName = firstName
+                            self.lastName = lastName
                         }
-                    }
 
-                    @discardableResult \(accessLevel) func with(firstName: String) -> Self {
-                        self.firstName = firstName
-                        return self
-                    }
+                        \(accessLevel) convenience init(from person: Person?) {
+                            if let person {
+                                self.init(
+                                    firstName: person.firstName,
+                                    lastName: person.lastName
+                                )
+                            } else {
+                                self.init()
+                            }
+                        }
 
-                    @discardableResult \(accessLevel) func with(lastName: String) -> Self {
-                        self.lastName = lastName
-                        return self
-                    }
+                        @discardableResult \(accessLevel) func with(firstName: String) -> Self {
+                            self.firstName = firstName
+                            return self
+                        }
 
-                    \(accessLevel) func build() -> Person {
-                        return Person(
-                            firstName: firstName,
-                            lastName: lastName
-                        )
+                        @discardableResult \(accessLevel) func with(lastName: String) -> Self {
+                            self.lastName = lastName
+                            return self
+                        }
+
+                        \(accessLevel) func build() -> Person {
+                            return Person(
+                                firstName: firstName,
+                                lastName: lastName
+                            )
+                        }
                     }
                 }
 
@@ -201,32 +201,32 @@ func test_should_apply_public_and_package_access_levels_with_init_for_struct() {
 
             internal struct Person {
                 let name: String
-            }
 
-            final class PersonBuilder {
-                private var name: String
+                final class Builder {
+                    private var name: String
 
-                init(
-                    name: String
-                ) {
-                    self.name = name
-                }
+                    init(
+                        name: String
+                    ) {
+                        self.name = name
+                    }
 
-                convenience init(from person: Person) {
-                    self.init(
-                        name: person.name
-                    )
-                }
+                    convenience init(from person: Person) {
+                        self.init(
+                            name: person.name
+                        )
+                    }
 
-                @discardableResult func with(name: String) -> Self {
-                    self.name = name
-                    return self
-                }
+                    @discardableResult func with(name: String) -> Self {
+                        self.name = name
+                        return self
+                    }
 
-                func build() -> Person {
-                    return Person(
-                        name: name
-                    )
+                    func build() -> Person {
+                        return Person(
+                            name: name
+                        )
+                    }
                 }
             }
 
@@ -250,32 +250,32 @@ func
 
             private struct Person {
                 let name: String
-            }
 
-            private final class PersonBuilder {
-                private var name: String
+                final class Builder {
+                    private var name: String
 
-                init(
-                    name: String
-                ) {
-                    self.name = name
-                }
+                    init(
+                        name: String
+                    ) {
+                        self.name = name
+                    }
 
-                convenience init(from person: Person) {
-                    self.init(
-                        name: person.name
-                    )
-                }
+                    convenience init(from person: Person) {
+                        self.init(
+                            name: person.name
+                        )
+                    }
 
-                @discardableResult func with(name: String) -> Self {
-                    self.name = name
-                    return self
-                }
+                    @discardableResult func with(name: String) -> Self {
+                        self.name = name
+                        return self
+                    }
 
-                func build() -> Person {
-                    return Person(
-                        name: name
-                    )
+                    func build() -> Person {
+                        return Person(
+                            name: name
+                        )
+                    }
                 }
             }
 
@@ -298,42 +298,42 @@ func
             public struct Person {
                 let name: String
                 let age: Int
-            }
 
-            package final class PersonBuilder {
-                private var name: String
-                private var age: Int
+                package final class Builder {
+                    private var name: String
+                    private var age: Int
 
-                package init(
-                    name: String,
-                    age: Int
-                ) {
-                    self.name = name
-                    self.age = age
-                }
+                    package init(
+                        name: String,
+                        age: Int
+                    ) {
+                        self.name = name
+                        self.age = age
+                    }
 
-                package convenience init(from person: Person) {
-                    self.init(
-                        name: person.name,
-                        age: person.age
-                    )
-                }
+                    package convenience init(from person: Person) {
+                        self.init(
+                            name: person.name,
+                            age: person.age
+                        )
+                    }
 
-                @discardableResult package func with(name: String) -> Self {
-                    self.name = name
-                    return self
-                }
+                    @discardableResult package func with(name: String) -> Self {
+                        self.name = name
+                        return self
+                    }
 
-                @discardableResult package func with(age: Int) -> Self {
-                    self.age = age
-                    return self
-                }
+                    @discardableResult package func with(age: Int) -> Self {
+                        self.age = age
+                        return self
+                    }
 
-                package func build() -> Person {
-                    return Person(
-                        name: name,
-                        age: age
-                    )
+                    package func build() -> Person {
+                        return Person(
+                            name: name,
+                            age: age
+                        )
+                    }
                 }
             }
 

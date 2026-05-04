@@ -52,7 +52,7 @@ func makeBuilderClassOuterDeclModifierList(for accessLevel: AccessLevel)
     -> DeclModifierListSyntax
 {
     var modifiers: DeclModifierListSyntax = []
-    if accessLevel != .internal {
+    if accessLevel != .internal && accessLevel != .private {
         modifiers.append(
             DeclModifierSyntax(
                 name: TokenSyntax(stringLiteral: accessLevel.rawValue)

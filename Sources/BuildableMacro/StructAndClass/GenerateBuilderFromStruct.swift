@@ -54,13 +54,10 @@ func generateBuilderFromStruct(
         givenAccessLevel: givenAccessLevel,
         desiredAccessLevel: accessLevel
     )
-    let hasCustomInitializer =
-        getBestGuessInitializer(from: structDecl.memberBlock) != nil
     return makeBuilderClassDecl(
         structName: structDecl.name,
         structMembers: getStructMembers(structDecl: structDecl),
         accessLevel: validAccessLevel,
-        hasCustomInitializer: hasCustomInitializer,
     )
 }
 

@@ -65,7 +65,8 @@ func makeWithFunction(
                             parameter.identifier
                         }
                     let secondName: TokenSyntax? =
-                        if parameter.alias != nil, parameter.alias?.text != "_" {
+                        if parameter.alias != nil, parameter.alias?.text != "_"
+                        {
                             parameter.identifier
                         } else {
                             nil

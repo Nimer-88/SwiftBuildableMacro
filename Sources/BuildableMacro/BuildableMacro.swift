@@ -54,17 +54,13 @@ struct BuildablePlugin: CompilerPlugin {
     ]
 }
 
-public struct BuildableMacroType: PeerMacro {
-    public static func expansion<Context, Declaration>(
-        of node: SwiftSyntax.AttributeSyntax,
-        providingPeersOf declaration: Declaration,
-        in context: Context
-    ) throws -> [SwiftSyntax.DeclSyntax]
-    where
-        Context: SwiftSyntaxMacros.MacroExpansionContext,
-        Declaration: SwiftSyntax.DeclSyntaxProtocol
-    {
-
+public struct BuildableMacroType: MemberMacro {
+    public static func expansion(
+        of node: AttributeSyntax,
+        providingMembersOf declaration: some DeclGroupSyntax,
+        conformingTo protocols: [TypeSyntax],
+        in context: some MacroExpansionContext
+    ) throws -> [DeclSyntax] {
         let accessLevel = extractAccessLevelMacroParameter(from: node)
         if let structDecl = declaration.as(StructDeclSyntax.self) {
             let structBuilder = try generateBuilderFromStruct(

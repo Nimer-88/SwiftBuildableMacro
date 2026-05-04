@@ -46,7 +46,7 @@
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
 
-/// A macro that produces a peer struct which implements the builder pattern
+/// A macro that produces a member class which implements the builder pattern
 ///
 ///     @Buildable
 ///     struct Person {
@@ -57,52 +57,58 @@
 ///
 ///  will expand to
 ///
-///     final class PersonBuilder {
-///         private var name: String
-///         private var age: Int
-///         private var photoURL: URL?
+///     struct Person {
+///         let name: String
+///         let age: Int
+///         let photoURL: URL?
 ///
-///         init(name: String, age: Int, photoURL: URL? = nil) {
-///             self.name = name
-///             self.age = age
-///             self.photoURL = photoURL
-///         }
+///         final class Builder {
+///             private var name: String
+///             private var age: Int
+///             private var photoURL: URL?
 ///
-///         convenience init(from person: Person) {
-///             self.init(
-///                 name: person.name,
-///                 age: person.age,
-///                 photoURL: person.photoURL
-///             )
-///         }
+///             init(name: String, age: Int, photoURL: URL? = nil) {
+///                 self.name = name
+///                 self.age = age
+///                 self.photoURL = photoURL
+///             }
 ///
-///         @discardableResult func with(name: String) -> Self {
-///             self.name = name
-///             return self
-///         }
+///             convenience init(from person: Person) {
+///                 self.init(
+///                     name: person.name,
+///                     age: person.age,
+///                     photoURL: person.photoURL
+///                 )
+///             }
 ///
-///         @discardableResult func with(age: Int) -> Self {
-///             self.age = age
-///             return self
-///         }
+///             @discardableResult func with(name: String) -> Self {
+///                 self.name = name
+///                 return self
+///             }
 ///
-///         @discardableResult func with(photoURL: URL?) -> Self {
-///             self.photoURL = photoURL
-///             return self
-///         }
+///             @discardableResult func with(age: Int) -> Self {
+///                 self.age = age
+///                 return self
+///             }
 ///
-///         public func build() -> Person {
-///             return Person(
-///                 name: name,
-///                 age: age,
-///                 photoURL: photoURL
-///             )
+///             @discardableResult func with(photoURL: URL?) -> Self {
+///                 self.photoURL = photoURL
+///                 return self
+///             }
+///
+///             public func build() -> Person {
+///                 return Person(
+///                     name: name,
+///                     age: age,
+///                     photoURL: photoURL
+///                 )
+///             }
 ///         }
 ///     }
 ///
 /// - Parameters:
 ///   - accessLevel: The access level (e.x. `.private`, `.public`, etc.), which the generated Builder will have. If you set the value to nil, the generated Builder has the same access level as the original struct/class to which the macro was applied to. The default value of this parameter is nil.
-@attached(peer, names: suffixed(Builder))
+@attached(member, names: named(Builder))
 public macro Buildable(accessLevel: AccessLevel? = nil) =
     #externalMacro(
         module: "BuildableMacro",

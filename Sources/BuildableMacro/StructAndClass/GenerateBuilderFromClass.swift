@@ -65,6 +65,5 @@ func generateBuilderFromClass(
         structName: classDecl.name,
         structMembers: extractInitializerMembers(from: initializerDecl),
         accessLevel: validAccessLevel,
-        hasCustomInitializer: true,
     )
 }

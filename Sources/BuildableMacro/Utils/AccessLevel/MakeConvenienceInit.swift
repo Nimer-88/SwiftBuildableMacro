@@ -49,8 +49,7 @@ import SwiftSyntaxBuilder
 func makeConvenienceInit(
     parameters: [InitParameter],
     originalTypeName: TokenSyntax,
-    accessLevel: AccessLevel,
-    hasCustomInitializer: Bool,
+    accessLevel: AccessLevel
 ) -> InitializerDeclSyntax {
     let originalTypeNameTrimmed = originalTypeName.trimmed
     let argumentName = TokenSyntax.identifier(

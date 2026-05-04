@@ -33,11 +33,11 @@
 // of training artificial intelligence technologies to generate text, including
 // without limitation, technologies that are capable of generating works in
 // the same style or genre as the Work, unless such person obtains Sebastian
-// Matusik’s specific and express permission to do so. Nor does any person
+// Matusik's specific and express permission to do so. Nor does any person
 // obtaining a copy of this software and associated documentation files have
 // the right to sublicense others to reproduce and/or otherwise use the Work in
 // any manner for purposes of training artificial intelligence technologies to
-// generate text without Sebastian Matusik’s specific and express permission.
+// generate text without Sebastian Matusik's specific and express permission.
 //
 // Created by Sebastian Matusik
 //
@@ -70,32 +70,32 @@ import Testing
                 ) {
                     self.m1 = m1
                 }
-            }
 
-            final class MyClassBuilder {
-                private var m1: String
+                final class Builder {
+                    private var m1: String
 
-                init(
-                    m1: String
-                ) {
-                    self.m1 = m1
-                }
+                    init(
+                        m1: String
+                    ) {
+                        self.m1 = m1
+                    }
 
-                convenience init(from myClass: MyClass) {
-                    self.init(
-                        m1: myClass.m1
-                    )
-                }
+                    convenience init(from myClass: MyClass) {
+                        self.init(
+                            m1: myClass.m1
+                        )
+                    }
 
-                @discardableResult func with(m1: String) -> Self {
-                    self.m1 = m1
-                    return self
-                }
+                    @discardableResult func with(m1: String) -> Self {
+                        self.m1 = m1
+                        return self
+                    }
 
-                func build() -> MyClass {
-                    return MyClass(
-                        m1: m1
-                    )
+                    func build() -> MyClass {
+                        return MyClass(
+                            m1: m1
+                        )
+                    }
                 }
             }
 
@@ -128,32 +128,32 @@ import Testing
                 ) {
                     self.m1 = m1
                 }
-            }
 
-            final class MyClassBuilder {
-                private var m1: String
+                final class Builder {
+                    private var m1: String
 
-                init(
-                    m1: String
-                ) {
-                    self.m1 = m1
-                }
+                    init(
+                        m1: String
+                    ) {
+                        self.m1 = m1
+                    }
 
-                convenience init(from myClass: MyClass) {
-                    self.init(
-                        m1: myClass.m1
-                    )
-                }
+                    convenience init(from myClass: MyClass) {
+                        self.init(
+                            m1: myClass.m1
+                        )
+                    }
 
-                @discardableResult func with(m1: String) -> Self {
-                    self.m1 = m1
-                    return self
-                }
+                    @discardableResult func with(m1: String) -> Self {
+                        self.m1 = m1
+                        return self
+                    }
 
-                func build() -> MyClass {
-                    return MyClass(
-                        m1
-                    )
+                    func build() -> MyClass {
+                        return MyClass(
+                            m1
+                        )
+                    }
                 }
             }
 
@@ -210,76 +210,76 @@ import Testing
                     self.m4 = m4
                     self.m5 = m5
                 }
-            }
 
-            final class MyClassBuilder {
-                private var m1: String
-                private var m2: URL?
-                private var m3: String?
-                private var m4: String!
-                private var m5: [String]
+                final class Builder {
+                    private var m1: String
+                    private var m2: URL?
+                    private var m3: String?
+                    private var m4: String!
+                    private var m5: [String]
 
-                init(
-                    firstName m1: String = "",
-                    m2: URL? = nil,
-                    m3: String? = nil,
-                    m4: String! = "",
-                    m5: [String] = []
-                ) {
-                    self.m1 = m1
-                    self.m2 = m2
-                    self.m3 = m3
-                    self.m4 = m4
-                    self.m5 = m5
-                }
-
-                convenience init(from myClass: MyClass?) {
-                    if let myClass {
-                        self.init(
-                            firstName: myClass.m1,
-                            m2: myClass.m2,
-                            m3: myClass.m3,
-                            m4: myClass.m4,
-                            m5: myClass.m5
-                        )
-                    } else {
-                        self.init()
+                    init(
+                        firstName m1: String = "",
+                        m2: URL? = nil,
+                        m3: String? = nil,
+                        m4: String! = "",
+                        m5: [String] = []
+                    ) {
+                        self.m1 = m1
+                        self.m2 = m2
+                        self.m3 = m3
+                        self.m4 = m4
+                        self.m5 = m5
                     }
-                }
 
-                @discardableResult func with(firstName m1: String) -> Self {
-                    self.m1 = m1
-                    return self
-                }
+                    convenience init(from myClass: MyClass?) {
+                        if let myClass {
+                            self.init(
+                                firstName: myClass.m1,
+                                m2: myClass.m2,
+                                m3: myClass.m3,
+                                m4: myClass.m4,
+                                m5: myClass.m5
+                            )
+                        } else {
+                            self.init()
+                        }
+                    }
 
-                @discardableResult func with(m2: URL?) -> Self {
-                    self.m2 = m2
-                    return self
-                }
+                    @discardableResult func with(firstName m1: String) -> Self {
+                        self.m1 = m1
+                        return self
+                    }
 
-                @discardableResult func with(m3: String?) -> Self {
-                    self.m3 = m3
-                    return self
-                }
+                    @discardableResult func with(m2: URL?) -> Self {
+                        self.m2 = m2
+                        return self
+                    }
 
-                @discardableResult func with(m4: String!) -> Self {
-                    self.m4 = m4
-                    return self
-                }
+                    @discardableResult func with(m3: String?) -> Self {
+                        self.m3 = m3
+                        return self
+                    }
 
-                @discardableResult func with(m5: [String]) -> Self {
-                    self.m5 = m5
-                    return self
-                }
+                    @discardableResult func with(m4: String!) -> Self {
+                        self.m4 = m4
+                        return self
+                    }
 
-                func build() -> MyClass {
-                    return MyClass(
-                        firstName: m1,
-                        m2: m2,
-                        m3: m3,
-                        m4: m4,
-                        m5: m5
-                    )
+                    @discardableResult func with(m5: [String]) -> Self {
+                        self.m5 = m5
+                        return self
+                    }
+
+                    func build() -> MyClass {
+                        return MyClass(
+                            firstName: m1,
+                            m2: m2,
+                            m3: m3,
+                            m4: m4,
+                            m5: m5
+                        )
+                    }
                 }
             }
 
@@ -336,42 +336,42 @@ import Testing
                     self.m1 = m1
                     self.m2 = m2
                 }
-            }
 
-            final class MyClassBuilder {
-                private var m1: String
-                private var m2: String
+                final class Builder {
+                    private var m1: String
+                    private var m2: String
 
-                init(
-                    m1: String,
-                    m2: String
-                ) {
-                    self.m1 = m1
-                    self.m2 = m2
-                }
+                    init(
+                        m1: String,
+                        m2: String
+                    ) {
+                        self.m1 = m1
+                        self.m2 = m2
+                    }
 
-                convenience init(from myClass: MyClass) {
-                    self.init(
-                        m1: myClass.m1,
-                        m2: myClass.m2
-                    )
-                }
+                    convenience init(from myClass: MyClass) {
+                        self.init(
+                            m1: myClass.m1,
+                            m2: myClass.m2
+                        )
+                    }
 
-                @discardableResult func with(m1: String) -> Self {
-                    self.m1 = m1
-                    return self
-                }
+                    @discardableResult func with(m1: String) -> Self {
+                        self.m1 = m1
+                        return self
+                    }
 
-                @discardableResult func with(m2: String) -> Self {
-                    self.m2 = m2
-                    return self
-                }
+                    @discardableResult func with(m2: String) -> Self {
+                        self.m2 = m2
+                        return self
+                    }
 
-                func build() -> MyClass {
-                    return MyClass(
-                        m1: m1,
-                        m2: m2
-                    )
+                    func build() -> MyClass {
+                        return MyClass(
+                            m1: m1,
+                            m2: m2
+                        )
+                    }
                 }
             }
             """,
@@ -425,32 +425,32 @@ import Testing
                         m1: m1
                     )
                 }
-            }
 
-            final class MyClassBuilder {
-                private var m1: String!
+                final class Builder {
+                    private var m1: String!
 
-                init(
-                    m1: String!
-                ) {
-                    self.m1 = m1
-                }
+                    init(
+                        m1: String!
+                    ) {
+                        self.m1 = m1
+                    }
 
-                convenience init(from myClass: MyClass) {
-                    self.init(
-                        m1: myClass.m1
-                    )
-                }
+                    convenience init(from myClass: MyClass) {
+                        self.init(
+                            m1: myClass.m1
+                        )
+                    }
 
-                @discardableResult func with(m1: String!) -> Self {
-                    self.m1 = m1
-                    return self
-                }
+                    @discardableResult func with(m1: String!) -> Self {
+                        self.m1 = m1
+                        return self
+                    }
 
-                func build() -> MyClass {
-                    return MyClass(
-                        m1: m1
-                    )
+                    func build() -> MyClass {
+                        return MyClass(
+                            m1: m1
+                        )
+                    }
                 }
             }
             """,
@@ -482,36 +482,36 @@ import Testing
                 ) {
                     self.m1 = m1
                 }
-            }
 
-            final class MyClassBuilder {
-                private var m1: String
+                final class Builder {
+                    private var m1: String
 
-                init(
-                    m1: String = ""
-                ) {
-                    self.m1 = m1
-                }
-
-                convenience init(from myClass: MyClass?) {
-                    if let myClass {
-                        self.init(
-                            m1: myClass.m1
-                        )
-                    } else {
-                        self.init()
+                    init(
+                        m1: String = ""
+                    ) {
+                        self.m1 = m1
                     }
-                }
 
-                @discardableResult func with(m1: String) -> Self {
-                    self.m1 = m1
-                    return self
-                }
+                    convenience init(from myClass: MyClass?) {
+                        if let myClass {
+                            self.init(
+                                m1: myClass.m1
+                            )
+                        } else {
+                            self.init()
+                        }
+                    }
 
-                func build() -> MyClass {
-                    return MyClass(
-                        m1: m1
-                    )
+                    @discardableResult func with(m1: String) -> Self {
+                        self.m1 = m1
+                        return self
+                    }
+
+                    func build() -> MyClass {
+                        return MyClass(
+                            m1: m1
+                        )
+                    }
                 }
             }
 
